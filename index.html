@@ -31,7 +31,7 @@
   }
 
   /* =========================================
-     BACKGROUND (MATAHARI -> GALAKSI)
+     BACKGROUND HALAMAN UTAMA (MATAHARI -> GALAKSI)
      ========================================= */
   .bg-sunflower {
     position: absolute; inset: 0;
@@ -50,17 +50,17 @@
   
   .bg-galaxy {
     position: absolute; inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop'); /* Gambar Galaksi Baru */
+    background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop'); 
     background-size: cover; background-position: center;
     z-index: -4; transition: opacity 1.5s ease;
-    opacity: 0; /* Awalnya sembunyi */
+    opacity: 0;
   }
   .overlay-galaxy {
     position: absolute; inset: 0;
     background: rgba(5, 5, 15, 0.4); 
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
     z-index: -3; transition: opacity 1.5s ease;
-    opacity: 0; /* Awalnya sembunyi */
+    opacity: 0;
   }
 
   /* =========================================
@@ -116,54 +116,50 @@
     display: grid; place-items: center;
   }
 
-  /* KARTU KACA (Tembus Pandang) */
-  .card {
+  /* =========================================
+     KARTU PESAN (ISI GALAKSI)
+     ========================================= */
+  .card-content {
     position: relative;
     width: 100%;
     max-height: 85vh; overflow-y: auto;
     padding: 60px 40px; text-align: center;
     
-    /* Kunci: Kartu dibuat transparan agar garis-garis terlihat menyatu */
-    background: rgba(15, 15, 25, 0.6); 
-    backdrop-filter: blur(15px); /* Efek kaca buram */
-    -webkit-backdrop-filter: blur(15px);
+    /* Menggunakan gambar galaksi + overlay gelap agar teks terbaca */
+    background: linear-gradient(rgba(10, 10, 20, 0.4), rgba(10, 10, 20, 0.7)), 
+                url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
     
-    border-radius: 12px; 
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 20px; 
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 20px 50px rgba(0,0,0,0.5);
+    
     transform: translateY(40px) scale(0.95); opacity: 0;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
     z-index: 10;
   }
-  .overlay.open .card { transform: translateY(0) scale(1); opacity: 1; }
+  .overlay.open .card-content { transform: translateY(0) scale(1); opacity: 1; }
 
   /* =========================================
-     GARIS BENANG WARNI (BINGKAI KARTU)
+     GARIS BENANG LIAR WARNA-WARNI
      ========================================= */
   .thread-svg {
     position: absolute;
-    top: -30px; left: -30px; right: -30px; bottom: -30px;
-    width: calc(100% + 60px); height: calc(100% + 60px);
-    z-index: 1; pointer-events: none;
+    top: -60px; left: -60px; right: -60px; bottom: -60px;
+    width: calc(100% + 120px); height: calc(100% + 120px);
+    z-index: 5; pointer-events: none;
     opacity: 0;
     transition: opacity 1s ease 0.3s;
-    /* Animasi berputar pelan */
-    animation: spinThreads 20s linear infinite;
   }
   .overlay.open .thread-svg { opacity: 1; }
 
-  @keyframes spinThreads {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
   .thread-svg path {
     fill: none;
-    stroke-width: 2;
+    stroke-width: 1.5; /* Benang tipis */
     stroke-linecap: round;
-    /* Memberikan efek glow warna-warni pada benang */
-    filter: drop-shadow(0 0 4px currentColor); 
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px currentColor); /* Glow tipis */
   }
 
+  /* Tombol Close */
   .close {
     position: absolute; top: 20px; right: 20px; z-index: 20;
     width: 36px; height: 36px; border: none; background: rgba(255,255,255,0.1);
@@ -173,15 +169,21 @@
   }
   .close:hover { background: #fff; color: #111; transform: rotate(90deg); }
 
-  .card h2 {
+  /* =========================================
+     TEKS & ANIMASI
+     ========================================= */
+  .card-content h2 {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
     font-size: 2.2rem; color: var(--accent); margin-bottom: 25px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
   }
 
-  .card p.msg {
+  .card-content p.msg {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.4rem; line-height: 1.7; font-style: italic; font-weight: 400;
-    color: #f0f0f0; display: flex; flex-direction: column;
+    color: #f0f0f0; 
+    text-shadow: 0 2px 5px rgba(0,0,0,0.9); /* Bayangan teks agar jelas di atas galaksi */
+    display: flex; flex-direction: column;
     min-height: 1em; letter-spacing: 0.5px;
   }
 
@@ -201,6 +203,7 @@
   .signature {
     font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem;
     color: var(--accent); margin-top: 35px; opacity: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
     animation: fadeUp 1s ease 4s forwards;
   }
   @keyframes fadeUp {
@@ -209,19 +212,19 @@
   }
 
   @media (max-width: 480px) {
-    .card { padding: 50px 25px; }
+    .card-content { padding: 50px 25px; }
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
-    .card p.msg { font-size: 1.25rem; }
+    .card-content p.msg { font-size: 1.25rem; }
     .thread-svg {
-      top: -15px; left: -15px; right: -15px; bottom: -15px;
-      width: calc(100% + 30px); height: calc(100% + 30px);
+      top: -40px; left: -40px; right: -40px; bottom: -40px;
+      width: calc(100% + 80px); height: calc(100% + 80px);
     }
   }
 </style>
 </head>
 <body>
 
-  <!-- Background Layer -->
+  <!-- Background Layer Halaman -->
   <div class="bg-sunflower" id="bgSunflower"></div>
   <div class="overlay-sunflower" id="overlaySunflower"></div>
   
@@ -239,37 +242,63 @@
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-wrapper">
       
-      <!-- Garis Benang Warni -->
-      <svg class="thread-svg" viewBox="0 0 200 200" preserveAspectRatio="none">
+      <!-- SVG BENANG LIAR -->
+      <svg class="thread-svg" viewBox="0 0 200 300" preserveAspectRatio="none">
         <defs>
-          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ff7eb3" />
-            <stop offset="100%" stop-color="#ff758c" />
-          </linearGradient>
-          <linearGradient id="grad2" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#00e5ff" />
-            <stop offset="100%" stop-color="#0072ff" />
-          </linearGradient>
-          <linearGradient id="grad3" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#d4a373" />
-            <stop offset="100%" stop-color="#faedcd" />
-          </linearGradient>
-          <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#b388ff" />
-            <stop offset="100%" stop-color="#8e24aa" />
-          </linearGradient>
+          <linearGradient id="gPink" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#ff758c"/></linearGradient>
+          <linearGradient id="gCyan" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#0072ff"/></linearGradient>
+          <linearGradient id="gGold" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#faedcd"/></linearGradient>
+          <linearGradient id="gPurple" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#b388ff"/><stop offset="100%" stop-color="#8e24aa"/></linearGradient>
+          <linearGradient id="gGreen" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00b09b"/><stop offset="100%" stop-color="#96c93d"/></linearGradient>
+          <linearGradient id="gOrange" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff9a9e"/><stop offset="100%" stop-color="#fecfef"/></linearGradient>
         </defs>
 
-        <!-- Benang melingkar pinggir -->
-        <path d="M 5,20 C -20,60 30,140 5,180" stroke="url(#grad1)" color="#ff7eb3" />
-        <path d="M 195,20 C 220,80 170,120 195,180" stroke="url(#grad2)" color="#00e5ff" />
-        <path d="M 20,5 C 80,-20 120,20 180,5" stroke="url(#grad3)" color="#d4a373" />
-        <path d="M 20,195 C 80,220 120,180 180,195" stroke="url(#grad4)" color="#b388ff" />
-        <path d="M 10,10 Q 50,50 10,100 T 10,190" stroke="url(#grad2)" color="#00e5ff" />
-        <path d="M 190,10 Q 150,50 190,100 T 190,190" stroke="url(#grad1)" color="#ff7eb3" />
+        <path stroke="url(#gPink)" color="#ff7eb3">
+          <animate attributeName="d" dur="7s" repeatCount="indefinite" values="
+            M -10,20 C 50,-20 150,80 210,50 C 180,150 100,250 -10,200 C -30,100 -10,20 -10,20;
+            M -20,50 C 80,10 120,60 220,20 C 160,180 120,280 -20,250 C -40,150 -20,50 -20,50;
+            M -10,20 C 50,-20 150,80 210,50 C 180,150 100,250 -10,200 C -30,100 -10,20 -10,20
+          " />
+        </path>
+        <path stroke="url(#gCyan)" color="#00e5ff">
+          <animate attributeName="d" dur="9s" repeatCount="indefinite" values="
+            M 210,20 C 150,-10 50,90 -10,40 C 20,150 80,260 210,220 C 230,120 210,20 210,20;
+            M 220,60 C 120,0 80,70 -20,30 C 40,170 100,270 220,240 C 240,140 220,60 220,60;
+            M 210,20 C 150,-10 50,90 -10,40 C 20,150 80,260 210,220 C 230,120 210,20 210,20
+          " />
+        </path>
+        <path stroke="url(#gGold)" color="#d4a373">
+          <animate attributeName="d" dur="11s" repeatCount="indefinite" values="
+            M -10,150 C 60,80 140,220 210,150 C 150,60 50,280 -10,150;
+            M -10,130 C 40,100 160,250 210,130 C 160,80 60,250 -10,130;
+            M -10,150 C 60,80 140,220 210,150 C 150,60 50,280 -10,150
+          " />
+        </path>
+        <path stroke="url(#gPurple)" color="#b388ff">
+          <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
+            M 50,300 C -20,200 100,100 20,0 C 120,20 180,180 150,-20;
+            M 30,300 C 0,180 120,120 40,-10 C 100,40 160,200 130,-30;
+            M 50,300 C -20,200 100,100 20,0 C 120,20 180,180 150,-20
+          " />
+        </path>
+        <path stroke="url(#gGreen)" color="#00b09b">
+          <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
+            M 150,300 C 220,200 80,120 180,0 C 80,40 -20,150 -10,-20;
+            M 130,300 C 250,180 60,100 160,-10 C 100,20 0,180 10,-30;
+            M 150,300 C 220,200 80,120 180,0 C 80,40 -20,150 -10,-20
+          " />
+        </path>
+        <path stroke="url(#gOrange)" color="#ff9a9e">
+          <animate attributeName="d" dur="6s" repeatCount="indefinite" values="
+            M 0,80 C 100,120 80,-20 200,-10 C 180,100 120,200 200,280;
+            M 0,100 C 120,80 60,-30 180,-20 C 200,120 140,180 220,260;
+            M 0,80 C 100,120 80,-20 200,-10 C 180,100 120,200 200,280
+          " />
+        </path>
       </svg>
 
-      <div class="card">
+      <!-- Isi Pesan -->
+      <div class="card-content">
         <button class="close" id="closeBtn" type="button">&times;</button>
         
         <h2>Hai, Bila</h2>
@@ -286,7 +315,6 @@
   const closeBtn = document.getElementById('closeBtn');
   const msgContainer = document.getElementById('msgContainer');
 
-  // Elemen Background
   const bgSunflower = document.getElementById('bgSunflower');
   const overlaySunflower = document.getElementById('overlaySunflower');
   const bgGalaxy = document.getElementById('bgGalaxy');
@@ -348,25 +376,19 @@
 
   const openCard = () => {
     overlay.classList.add('open');
-    
-    // PAKSA GANTI BACKGROUND LEWAT JS (Anti-Gagal)
     bgSunflower.style.opacity = '0';
     overlaySunflower.style.opacity = '0';
     bgGalaxy.style.opacity = '1';
     overlayGalaxy.style.opacity = '1';
-
     setTimeout(typeMessage, 500); 
   };
 
   const closeCard = () => {
     overlay.classList.remove('open');
-    
-    // KEMBALIKAN BACKGROUND KE BUNGA MATAHARI
     bgSunflower.style.opacity = '1';
     overlaySunflower.style.opacity = '1';
     bgGalaxy.style.opacity = '0';
     overlayGalaxy.style.opacity = '0';
-
     clearTimeout(typingTimer);
     setTimeout(() => { msgContainer.innerHTML = ''; }, 500); 
   };
