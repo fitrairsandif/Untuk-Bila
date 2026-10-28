@@ -7,7 +7,6 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Font: Playfair Display (Judul Elegan), Cormorant Garamond (Isi), Outfit (Tombol) -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Cormorant+Garamond:ital,wght@1,400;1,600&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
@@ -33,7 +32,7 @@
   }
 
   /* =========================================
-     BACKGROUND & TRANSISI
+     BACKGROUND (MATAHARI -> GALAKSI)
      ========================================= */
   .bg-sunflower {
     position: absolute; inset: 0;
@@ -59,18 +58,20 @@
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
     z-index: -3; opacity: 0; transition: opacity 1.5s ease;
   }
-  .overlay.open ~ .bg-galaxy,
-  .overlay.open ~ .overlay-galaxy { opacity: 1; }
-  .overlay.open ~ .bg-sunflower { opacity: 0; }
-  .overlay.open ~ .overlay-sunflower { opacity: 0; }
 
-  /* Garis Abstrak di Background */
+  /* KONDISI SAAT POP-UP TERBUKA (Menggunakan class body) */
+  body.modal-open .bg-galaxy { opacity: 1; }
+  body.modal-open .overlay-galaxy { opacity: 1; }
+  body.modal-open .bg-sunflower { opacity: 0; }
+  body.modal-open .overlay-sunflower { opacity: 0; }
+
+  /* Garis Abstrak di Background Utama */
   .bg-lines {
     position: absolute; inset: 0; z-index: -2; pointer-events: none; opacity: 0.6;
   }
   .bg-lines svg { width: 100%; height: 100%; }
   .bg-lines path { fill: none; stroke-linecap: round; stroke: rgba(0, 0, 0, 0.1); transition: stroke 1.5s ease; }
-  .overlay.open ~ .bg-lines path { stroke: rgba(212, 163, 115, 0.2); }
+  body.modal-open .bg-lines path { stroke: rgba(212, 163, 115, 0.2); }
 
   /* =========================================
      HALAMAN UTAMA
@@ -84,7 +85,6 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* FONT: PLAYFAIR DISPLAY */
   .title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(3.5rem, 12vw, 5.5rem);
@@ -117,8 +117,7 @@
   .overlay {
     position: fixed; inset: 0; z-index: 50;
     display: grid; place-items: center; padding: 20px;
-    background: rgba(15, 15, 15, 0.4); 
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    background: rgba(15, 15, 15, 0.2); /* Overlay diperkecil karena background galaksi sudah gelap */
     opacity: 0; visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
   }
@@ -128,6 +127,7 @@
   .card-wrapper {
     position: relative;
     width: min(480px, 100%);
+    display: grid; place-items: center;
   }
 
   /* KARTU UTAMA */
@@ -138,77 +138,67 @@
     padding: 60px 40px; text-align: center;
     background: var(--bg-card); 
     border-radius: 12px; 
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05);
     transform: translateY(40px) scale(0.95); opacity: 0;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-    z-index: 2;
+    z-index: 10; /* Berada di atas benang */
   }
   .overlay.open .card { transform: translateY(0) scale(1); opacity: 1; }
 
   /* =========================================
-     GARIS BENANG TIDAK BERATURAN (THREADS)
+     GARIS BENANG WARNA-WARNI (DI BELAKANG KARTU)
      ========================================= */
   .thread-svg {
     position: absolute;
-    top: -30px; left: -30px; right: -30px; bottom: -30px;
-    width: calc(100% + 60px); height: calc(100% + 60px);
+    top: -40px; left: -40px; right: -40px; bottom: -40px;
+    width: calc(100% + 80px); height: calc(100% + 80px);
     z-index: 1; pointer-events: none;
     opacity: 0;
-    transition: opacity 1s ease 0.5s;
+    transition: opacity 1s ease 0.3s;
+    animation: spinThreads 25s linear infinite;
   }
   .overlay.open .thread-svg { opacity: 1; }
 
-  .thread-svg path {
-    fill: none;
-    stroke: var(--accent);
-    stroke-width: 1.2;
-    stroke-linecap: round;
-    animation: threadMove 15s linear infinite alternate;
+  @keyframes spinThreads {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
-  .thread-svg path:nth-child(1) { animation-duration: 12s; opacity: 0.8; }
-  .thread-svg path:nth-child(2) { animation-duration: 18s; animation-delay: -2s; opacity: 0.6; }
-  .thread-svg path:nth-child(3) { animation-duration: 14s; animation-delay: -5s; opacity: 0.9; }
-  .thread-svg path:nth-child(4) { animation-duration: 20s; animation-delay: -1s; opacity: 0.5; }
-  .thread-svg path:nth-child(5) { animation-duration: 16s; animation-delay: -8s; opacity: 0.7; }
-  .thread-svg path:nth-child(6) { animation-duration: 22s; animation-delay: -4s; opacity: 0.4; }
-
-  @keyframes threadMove {
-    0% { transform: rotate(0deg) scale(1); }
-    100% { transform: rotate(2deg) scale(1.02); }
+  .thread-svg path {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
   }
 
   /* Tombol Close */
   .close {
-    position: absolute; top: 20px; right: 20px; z-index: 10;
+    position: absolute; top: 20px; right: 20px; z-index: 20;
     width: 36px; height: 36px; border: none; background: rgba(255,255,255,0.1);
     border-radius: 50%; color: #ccc; font-size: 1.2rem; line-height: 1;
     cursor: pointer; transition: 0.3s;
     display: flex; align-items: center; justify-content: center;
   }
-  .close:hover { background: var(--accent); color: #111; transform: rotate(90deg); }
+  .close:hover { background: #fff; color: #111; transform: rotate(90deg); }
 
   .card h2 {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
     font-size: 2.2rem; color: var(--accent); margin-bottom: 25px;
   }
 
-  /* Container Teks Pesan */
   .card p.msg {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; line-height: 1.6; font-style: italic; font-weight: 400;
+    font-size: 1.4rem; line-height: 1.7; font-style: italic; font-weight: 400;
     color: #f0f0f0; display: flex; flex-direction: column;
     min-height: 1em; letter-spacing: 0.5px;
   }
 
-  /* ANIMASI SETIAP BARIS TEKS */
   .msg-line {
     display: block; min-height: 1.2em; opacity: 0; transform: translateY(15px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .msg-line.visible { opacity: 1; transform: translateY(0); }
 
-  /* Kursor */
   .type-cursor {
     display: inline-block; width: 2px; height: 1em;
     background: var(--accent); margin-left: 4px;
@@ -231,8 +221,8 @@
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
     .card p.msg { font-size: 1.25rem; }
     .thread-svg {
-      top: -15px; left: -15px; right: -15px; bottom: -15px;
-      width: calc(100% + 30px); height: calc(100% + 30px);
+      top: -20px; left: -20px; right: -20px; bottom: -20px;
+      width: calc(100% + 40px); height: calc(100% + 40px);
     }
   }
 </style>
@@ -244,25 +234,6 @@
   <div class="bg-galaxy"></div>
   <div class="overlay-galaxy"></div>
 
-  <div class="bg-lines">
-    <svg viewBox="0 0 1000 1000" preserveAspectRatio="none">
-      <path stroke-width="2">
-        <animate attributeName="d" dur="15s" repeatCount="indefinite" values="
-          M -100,200 C 300,100 700,500 1100,300;
-          M -100,400 C 300,600 700,200 1100,500;
-          M -100,200 C 300,100 700,500 1100,300
-        " />
-      </path>
-      <path stroke-width="1.5">
-        <animate attributeName="d" dur="20s" repeatCount="indefinite" values="
-          M -100,600 C 400,800 600,200 1100,400;
-          M -100,800 C 400,500 600,700 1100,600;
-          M -100,600 C 400,800 600,200 1100,400
-        " />
-      </path>
-    </svg>
-  </div>
-
   <main class="stage">
     <h1 class="title">Untuk Bila</h1>
     <p class="subtitle">A Little Note For You</p>
@@ -272,13 +243,39 @@
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-wrapper">
       
-      <svg class="thread-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <path d="M 5,10 Q -5,30 10,50 T 5,90 T 15,95" />
-        <path d="M 95,5 Q 105,40 90,70 T 95,95 T 85,100" />
-        <path d="M 20,5 Q 40,-10 50,15 T 80,5 T 95,15" />
-        <path d="M 10,95 Q 30,110 50,85 T 85,95" />
-        <path d="M 0,40 Q 30,20 50,40 T 100,50" />
-        <path d="M 0,60 C 20,70 30,40 40,60 S 60,70 80,50 S 100,60 100,60" />
+      <!-- SVG BENANG WARNA-WARNI -->
+      <svg class="thread-svg" viewBox="0 0 200 200" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff7eb3" />
+            <stop offset="100%" stop-color="#ff758c" />
+          </linearGradient>
+          <linearGradient id="grad2" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00e5ff" />
+            <stop offset="100%" stop-color="#0072ff" />
+          </linearGradient>
+          <linearGradient id="grad3" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#d4a373" />
+            <stop offset="100%" stop-color="#faedcd" />
+          </linearGradient>
+          <linearGradient id="grad4" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#b388ff" />
+            <stop offset="100%" stop-color="#8e24aa" />
+          </linearGradient>
+        </defs>
+
+        <!-- Garis 1: Melengkung di kiri -->
+        <path d="M 10,50 C -10,80 30,120 10,150" stroke="url(#grad1)" />
+        <!-- Garis 2: Melengkung di kanan -->
+        <path d="M 190,60 C 210,100 170,140 190,170" stroke="url(#grad2)" />
+        <!-- Garis 3: Atas melingkar -->
+        <path d="M 30,10 C 60,-10 140,20 170,10" stroke="url(#grad3)" />
+        <!-- Garis 4: Bawah melingkar -->
+        <path d="M 20,190 C 60,210 150,180 180,190" stroke="url(#grad4)" />
+        <!-- Garis 5: Menyilang melintasi sudut -->
+        <path d="M 5,5 Q 50,50 10,100 T 5,195" stroke="url(#grad2)" />
+        <!-- Garis 6: Menyilang sudut kanan bawah -->
+        <path d="M 195,5 Q 150,50 190,100 T 195,195" stroke="url(#grad1)" />
       </svg>
 
       <div class="card">
@@ -338,36 +335,31 @@
         cursor.before(document.createTextNode(char));
         charIndex++;
         
-        // ==========================================
-        // PENGATURAN KECEPATAN KETIK (SMOOTH)
-        // ==========================================
-        let pause = 65; // Jeda per huruf (semakin besar semakin lambat)
-        
-        if (/[.,!?]/.test(char)) {
-          pause = 250; // Jeda lebih lama saat koma/titik
-        } else if (char === ' ') {
-          pause = 80; // Jeda saat spasi sedikit lebih lama
-        }
+        let pause = 65; 
+        if (/[.,!?]/.test(char)) pause = 250; 
+        else if (char === ' ') pause = 80; 
         
         typingTimer = setTimeout(typeLine, pause);
       } else {
         lineIndex++;
         charIndex = 0;
-        // Jeda saat pindah baris baru
         typingTimer = setTimeout(typeLine, 300); 
       }
     }
-
     typeLine();
   }
 
   const openCard = () => {
     overlay.classList.add('open');
+    // Menambahkan class ke body untuk memicu transisi background galaksi
+    document.body.classList.add('modal-open');
     setTimeout(typeMessage, 500); 
   };
 
   const closeCard = () => {
     overlay.classList.remove('open');
+    // Menghapus class body saat modal ditutup
+    document.body.classList.remove('modal-open');
     clearTimeout(typingTimer);
     setTimeout(() => { msgContainer.innerHTML = ''; }, 500); 
   };
