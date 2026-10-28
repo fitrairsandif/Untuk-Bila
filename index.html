@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -294,14 +294,13 @@
     max-height: 85vh; overflow-y: auto;
     padding: 50px 30px; text-align: center;
     
-    background: linear-gradient(rgba(10, 10, 20, 0.6), rgba(5, 5, 10, 0.9)), 
-                url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
-    backdrop-filter: blur(10px); 
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(15, 15, 25, 0.2); 
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
     
     border-radius: 24px; 
-    border: 1px solid rgba(212, 163, 115, 0.5);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
     
     transform: translateY(30px) scale(0.95); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
@@ -318,10 +317,10 @@
     position: absolute;
     inset: -1px;
     border-radius: 24px;
-    background: linear-gradient(45deg, transparent 20%, rgba(212, 163, 115, 0.8) 50%, transparent 80%);
+    background: linear-gradient(45deg, transparent 20%, rgba(255, 255, 255, 0.4) 50%, transparent 80%);
     background-size: 200% 200%;
     z-index: -1;
-    animation: borderShine 3s linear infinite;
+    animation: borderShine 4s linear infinite;
   }
 
   @keyframes floatCard {
@@ -343,8 +342,13 @@
   .close:hover { background: var(--accent); color: #111; transform: rotate(90deg); }
 
   .card-content h2 {
-    font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
-    font-size: 2.4rem; color: var(--accent); margin-bottom: 25px;
+    font-family: 'JetBrains Mono', monospace; 
+    font-style: normal; 
+    font-weight: 700; 
+    font-size: 1.8rem; 
+    color: var(--accent); 
+    margin-bottom: 25px;
+    letter-spacing: -1px;
     text-shadow: 0 2px 15px rgba(0,0,0,0.8);
   }
 
@@ -354,7 +358,7 @@
     line-height: 1.8; 
     font-weight: 400;
     color: #fff; 
-    text-shadow: 0 2px 8px rgba(0,0,0,1);
+    text-shadow: 0 2px 10px rgba(0,0,0,1); 
     display: flex; flex-direction: column;
     min-height: 1em; 
     letter-spacing: -0.5px;
@@ -380,8 +384,13 @@
   @keyframes blink { 50% { opacity: 0; } }
 
   .signature {
-    font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.4rem;
-    color: var(--accent); margin-top: 35px; opacity: 0;
+    font-family: 'Dancing Script', cursive; 
+    font-style: normal; 
+    font-weight: 500;
+    font-size: 1rem; 
+    color: var(--accent); 
+    margin-top: 25px; 
+    opacity: 0;
     text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     animation: fadeUp 1s ease 4s forwards;
     text-align: right;
@@ -434,8 +443,8 @@
 </head>
 <body>
 
-  <!-- LAGU: Lobo - Rock and Roll Days (Direct Link) -->
-  <audio id="bgMusic" loop>
+  <!-- LAGU: Lobo - Rock and Roll Days (Tanpa atribut loop, karena loop diatur JS) -->
+  <audio id="bgMusic">
     <source src="https://archive.org/download/lobo_20250503/Lobo.mp3" type="audio/mpeg">
   </audio>
 
@@ -493,6 +502,14 @@
   const bgMusic = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicBtn');
   let isMusicPlaying = false;
+
+  // ==========================================
+  // PENGATURAN BAGIAN REFF LAGU
+  // Ubah angka di bawah ini jika reff-nya kepotong
+  // ==========================================
+  const startTime = 45; // Detik mulai reff (45 detik)
+  const endTime = 80;   // Detik akhir reff (80 detik)
+  // ==========================================
 
   const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
 
@@ -556,6 +573,7 @@
     stage.style.pointerEvents = 'none';
 
     bgMusic.volume = 0.6;
+    bgMusic.currentTime = startTime; // LONCAT KE DETIK REFF
     bgMusic.play().then(() => {
       isMusicPlaying = true;
       musicBtn.classList.add('playing');
@@ -574,7 +592,7 @@
     stage.style.pointerEvents = 'auto';
 
     bgMusic.pause();
-    bgMusic.currentTime = 0;
+    bgMusic.currentTime = startTime;
     isMusicPlaying = false;
     musicBtn.classList.remove('playing');
 
@@ -591,6 +609,13 @@
       bgMusic.play();
       musicBtn.classList.add('playing');
       isMusicPlaying = true;
+    }
+  });
+
+  // LOOPING KHUSUS BAGIAN REFF SAJA
+  bgMusic.addEventListener('timeupdate', () => {
+    if (bgMusic.currentTime >= endTime) {
+      bgMusic.currentTime = startTime; // Kembali ke awal reff jika sudah habis
     }
   });
 
