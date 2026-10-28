@@ -7,6 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Menambahkan font Dancing Script untuk tanda tangan -->
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@400;500&family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
 
 <style>
@@ -341,6 +342,7 @@
   }
   .close:hover { background: var(--accent); color: #111; transform: rotate(90deg); }
 
+  /* FONT HAI BILA (TEGAK / TIDAK MIRING) */
   .card-content h2 {
     font-family: 'JetBrains Mono', monospace; 
     font-style: normal; 
@@ -383,11 +385,12 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* TANDA TANGAN (HURUF SAMBUNG, LEBIH KECIL) */
   .signature {
-    font-family: 'Dancing Script', cursive; 
+    font-family: 'Dancing Script', cursive; /* Font Sambung */
     font-style: normal; 
     font-weight: 500;
-    font-size: 1rem; 
+    font-size: 1rem; /* Ukuran diperkecil */
     color: var(--accent); 
     margin-top: 25px; 
     opacity: 0;
@@ -443,8 +446,8 @@
 </head>
 <body>
 
-  <!-- LAGU: Lobo - Rock and Roll Days (Tanpa atribut loop, karena loop diatur JS) -->
-  <audio id="bgMusic">
+  <!-- LAGU: Lobo - Rock and Roll Days -->
+  <audio id="bgMusic" loop>
     <source src="https://archive.org/download/lobo_20250503/Lobo.mp3" type="audio/mpeg">
   </audio>
 
@@ -502,14 +505,6 @@
   const bgMusic = document.getElementById('bgMusic');
   const musicBtn = document.getElementById('musicBtn');
   let isMusicPlaying = false;
-
-  // ==========================================
-  // PENGATURAN BAGIAN REFF LAGU
-  // Ubah angka di bawah ini jika reff-nya kepotong
-  // ==========================================
-  const startTime = 45; // Detik mulai reff (45 detik)
-  const endTime = 80;   // Detik akhir reff (80 detik)
-  // ==========================================
 
   const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
 
@@ -573,7 +568,6 @@
     stage.style.pointerEvents = 'none';
 
     bgMusic.volume = 0.6;
-    bgMusic.currentTime = startTime; // LONCAT KE DETIK REFF
     bgMusic.play().then(() => {
       isMusicPlaying = true;
       musicBtn.classList.add('playing');
@@ -592,7 +586,7 @@
     stage.style.pointerEvents = 'auto';
 
     bgMusic.pause();
-    bgMusic.currentTime = startTime;
+    bgMusic.currentTime = 0;
     isMusicPlaying = false;
     musicBtn.classList.remove('playing');
 
@@ -609,13 +603,6 @@
       bgMusic.play();
       musicBtn.classList.add('playing');
       isMusicPlaying = true;
-    }
-  });
-
-  // LOOPING KHUSUS BAGIAN REFF SAJA
-  bgMusic.addEventListener('timeupdate', () => {
-    if (bgMusic.currentTime >= endTime) {
-      bgMusic.currentTime = startTime; // Kembali ke awal reff jika sudah habis
     }
   });
 
