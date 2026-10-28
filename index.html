@@ -28,9 +28,7 @@
     background-color: #000;
   }
 
-  /* =========================================
-     BACKGROUND HALAMAN (MATAHARI -> GALAKSI)
-     ========================================= */
+  /* BACKGROUND HALAMAN */
   .bg-sunflower {
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
@@ -45,7 +43,6 @@
     z-index: -3; transition: opacity 1.5s ease;
     opacity: 1;
   }
-  
   .bg-galaxy {
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop'); 
@@ -61,9 +58,7 @@
     opacity: 0;
   }
 
-  /* =========================================
-     HALAMAN UTAMA
-     ========================================= */
+  /* HALAMAN UTAMA */
   .stage {
     text-align: center; padding: 24px; z-index: 1;
     animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -72,7 +67,6 @@
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
   .title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(3.5rem, 12vw, 5.5rem);
@@ -80,13 +74,11 @@
     color: #1a1a1a; margin-bottom: 15px;
     text-shadow: 0 4px 20px rgba(255,255,255,1);
   }
-
   .subtitle {
     font-weight: 500; letter-spacing: 5px; text-transform: uppercase;
     font-size: 0.75rem; color: #222; text-shadow: 0 2px 10px rgba(255,255,255,1);
     margin-bottom: 50px;
   }
-
   .btn {
     position: relative; overflow: hidden; background: #111; color: #fff;
     font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500;
@@ -96,9 +88,7 @@
   }
   .btn:hover { background: var(--accent); transform: translateY(-3px); }
 
-  /* =========================================
-     POP-UP MODAL 
-     ========================================= */
+  /* POP-UP MODAL */
   .overlay {
     position: fixed; inset: 0; z-index: 50;
     display: grid; place-items: center; padding: 20px;
@@ -107,65 +97,58 @@
   }
   .overlay.open { opacity: 1; visibility: visible; }
 
-  /* WADAH KARTU */
   .card-wrapper {
     position: relative;
-    width: min(450px, 100%);
+    width: min(440px, 100%);
     display: grid; place-items: center;
     border-radius: 20px;
   }
 
-  /* =========================================
-     KARTU PESAN (ISI GALAKSI)
-     ========================================= */
+  /* KARTU GALAKSI */
   .card-content {
     position: relative;
     width: 100%;
     max-height: 80vh; overflow-y: auto;
     padding: 60px 40px; text-align: center;
-    
-    /* ISI GALAKSI */
     background: linear-gradient(rgba(10, 10, 20, 0.5), rgba(10, 10, 20, 0.8)), 
                 url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
-    
     border-radius: 20px; 
     box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    
     transform: translateY(30px) scale(0.95); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-    z-index: 10; /* Di bawah benang */
+    z-index: 10; 
   }
   .overlay.open .card-content { transform: translateY(0) scale(1); opacity: 1; }
 
-  /* Teks di dalam kartu (di atas benang) */
   .inner-text {
     position: relative;
     z-index: 20;
   }
 
   /* =========================================
-     8 BENANG TIPIS LIAR (BORDER)
+     8 BENANG GELOMBANG KECIL & CEPAT (BORDER)
      ========================================= */
   .thread-svg {
     position: absolute;
-    inset: -25px; /* Menjangkau keluar dari kotak */
-    width: calc(100% + 50px); height: calc(100% + 50px);
+    inset: -40px; /* Diperbesar agar lekukan tidak terpotong */
+    width: calc(100% + 80px); height: calc(100% + 80px);
     z-index: 15; pointer-events: none;
     opacity: 0;
     transition: opacity 1s ease 0.3s;
+    overflow: visible; /* Memastikan tidak ada yang terpotong */
   }
   .overlay.open .thread-svg { opacity: 1; }
 
   .thread-svg path {
     fill: none;
-    stroke-width: 1.2; /* SANGAT TIPIS */
+    stroke-width: 1.5; /* Sangat tipis */
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 0 4px currentColor); 
+    filter: drop-shadow(0 0 3px currentColor); 
     vector-effect: non-scaling-stroke; 
   }
 
-  /* Tombol Close */
+  /* TOMBOL CLOSE */
   .close {
     position: absolute; top: 15px; right: 15px; z-index: 30;
     width: 32px; height: 32px; border: none; background: rgba(255,255,255,0.1);
@@ -175,9 +158,7 @@
   }
   .close:hover { background: #fff; color: #111; transform: rotate(90deg); }
 
-  /* =========================================
-     TEKS & ANIMASI KETIK
-     ========================================= */
+  /* TEKS & ANIMASI KETIK */
   .card-content h2 {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
     font-size: 2.2rem; color: var(--accent); margin-bottom: 25px;
@@ -222,8 +203,8 @@
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
     .card-content p.msg { font-size: 1.2rem; }
     .thread-svg {
-      inset: -15px;
-      width: calc(100% + 30px); height: calc(100% + 30px);
+      inset: -20px;
+      width: calc(100% + 40px); height: calc(100% + 40px);
     }
   }
 </style>
@@ -244,10 +225,9 @@
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-wrapper">
       
-      <!-- 8 BENANG TIPIS, HALUS, DAN BERGERAK BEBAS -->
+      <!-- 8 BENANG GELOMBANG KECIL, CEPAT, FULL MELINGKAR -->
       <svg class="thread-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
-          <!-- 8 Gradien Warna -->
           <linearGradient id="c1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#ff758c"/></linearGradient>
           <linearGradient id="c2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#0072ff"/></linearGradient>
           <linearGradient id="c3" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#faedcd"/></linearGradient>
@@ -258,83 +238,80 @@
           <linearGradient id="c8" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff0844"/><stop offset="100%" stop-color="#ffb199"/></linearGradient>
         </defs>
 
-        <!-- 1. Pink -->
+        <!-- 
+          Rumus path: Membentuk kotak melingkar penuh (Z), 
+          tapi setiap sisinya diberi gelombang kecil (C) yang rapat.
+        -->
+
+        <!-- 1. Pink (Cepat) -->
         <path stroke="url(#c1)" color="#ff7eb3">
-          <animate attributeName="d" dur="7s" repeatCount="indefinite" values="
-            M -5,-5 C 30,-15 70,-15 105,-5 C 115,30 115,70 105,105 C 70,115 30,115 -5,105 C -15,70 -15,30 -5,-5;
-            M -5,10 C 40,-5 60,-5 105,-10 C 120,20 120,60 110,105 C 50,120 20,120 -5,95 C -20,80 -20,20 -5,10;
-            M -10,-5 C 20,-25 80,-5 105,0 C 110,40 110,80 100,110 C 60,120 40,120 -10,100 C -25,60 -25,20 -10,-5;
-            M -5,-5 C 30,-15 70,-15 105,-5 C 115,30 115,70 105,105 C 70,115 30,115 -5,105 C -15,70 -15,30 -5,-5
+          <animate attributeName="d" dur="3s" repeatCount="indefinite" values="
+            M -5,-5 C 10,-10 15,5 30,-5 C 45,-10 55,5 70,-5 C 85,-10 95,5 105,-5 C 110,10 95,15 105,30 C 110,45 95,55 105,70 C 110,85 95,95 105,105 C 90,110 85,95 70,105 C 55,110 45,95 30,105 C 15,110 5,95 -5,105 C -10,90 5,85 -5,70 C -10,55 5,45 -5,30 C -10,15 5,5 -5,-5 Z;
+            M -5,-10 C 15,-5 10,10 30,-10 C 45,-5 55,10 70,-10 C 85,-5 90,10 105,-10 C 105,15 110,10 105,30 C 105,45 110,55 105,70 C 105,85 110,90 105,110 C 85,105 90,90 70,110 C 55,105 45,90 30,110 C 15,105 10,90 -5,110 C -10,85 5,90 -5,70 C -10,55 5,45 -5,30 C -10,15 5,10 -5,-10 Z;
+            M -5,-5 C 10,-10 15,5 30,-5 C 45,-10 55,5 70,-5 C 85,-10 95,5 105,-5 C 110,10 95,15 105,30 C 110,45 95,55 105,70 C 110,85 95,95 105,105 C 90,110 85,95 70,105 C 55,110 45,95 30,105 C 15,110 5,95 -5,105 C -10,90 5,85 -5,70 C -10,55 5,45 -5,30 C -10,15 5,5 -5,-5 Z
           " />
         </path>
 
-        <!-- 2. Cyan -->
+        <!-- 2. Cyan (Cepat) -->
         <path stroke="url(#c2)" color="#00e5ff">
-          <animate attributeName="d" dur="9s" repeatCount="indefinite" values="
-            M 5,-10 C 40,-5 60,-5 95,-10 C 110,20 110,60 105,105 C 60,110 40,110 -5,105 C -10,80 -10,20 5,-10;
-            M -10,-5 C 30,-20 70,-10 105,-5 C 115,30 100,70 95,105 C 70,120 30,110 -5,105 C -15,80 -15,30 -10,-5;
-            M 0,-10 C 50,-20 80,-10 100,-10 C 120,30 110,60 105,100 C 50,120 30,110 0,105 C -20,70 -20,30 0,-10;
-            M 5,-10 C 40,-5 60,-5 95,-10 C 110,20 110,60 105,105 C 60,110 40,110 -5,105 C -10,80 -10,20 5,-10
+          <animate attributeName="d" dur="3.5s" repeatCount="indefinite" values="
+            M -5,-5 C 10,-5 15,10 30,-5 C 45,-5 55,10 70,-5 C 85,-5 95,10 105,-5 C 105,10 110,15 105,30 C 105,45 110,55 105,70 C 105,85 110,95 105,105 C 90,105 85,110 70,105 C 55,105 45,110 30,105 C 15,105 5,110 -5,105 C -5,90 10,85 -5,70 C -5,55 10,45 -5,30 C -5,15 10,5 -5,-5 Z;
+            M -5,0 C 15,-10 10,15 30,0 C 45,-10 55,15 70,0 C 85,-10 90,15 105,0 C 110,15 105,10 105,30 C 110,45 105,55 105,70 C 110,85 105,90 105,110 C 85,100 90,105 70,110 C 55,100 45,105 30,110 C 15,100 10,105 -5,110 C -10,90 5,95 -5,70 C -10,55 5,45 -5,30 C -10,15 5,10 -5,0 Z;
+            M -5,-5 C 10,-5 15,10 30,-5 C 45,-5 55,10 70,-5 C 85,-5 95,10 105,-5 C 105,10 110,15 105,30 C 105,45 110,55 105,70 C 105,85 110,95 105,105 C 90,105 85,110 70,105 C 55,105 45,110 30,105 C 15,105 5,110 -5,105 C -5,90 10,85 -5,70 C -5,55 10,45 -5,30 C -5,15 10,5 -5,-5 Z
           " />
         </path>
 
-        <!-- 3. Gold -->
+        <!-- 3. Gold (Cepat) -->
         <path stroke="url(#c3)" color="#d4a373">
-          <animate attributeName="d" dur="11s" repeatCount="indefinite" values="
-            M -10,0 C 20,40 80,40 110,0 C 80,60 80,80 110,110 C 60,80 40,80 -10,110 C 20,60 20,40 -10,0;
-            M -10,10 C 30,50 70,50 110,10 C 90,70 70,90 110,100 C 70,90 50,70 -10,100 C 10,60 10,40 -10,10;
-            M -10,-10 C 10,30 90,30 110,-10 C 70,50 70,70 110,120 C 50,70 30,70 -10,120 C 30,50 30,30 -10,-10;
-            M -10,0 C 20,40 80,40 110,0 C 80,60 80,80 110,110 C 60,80 40,80 -10,110 C 20,60 20,40 -10,0
+          <animate attributeName="d" dur="4s" repeatCount="indefinite" values="
+            M -5,-5 C 15,0 10,-10 30,-5 C 45,0 55,-10 70,-5 C 85,0 90,-10 105,-5 C 100,15 110,10 105,30 C 100,45 110,55 105,70 C 100,85 110,90 105,105 C 85,100 90,110 70,105 C 55,100 45,110 30,105 C 15,100 10,110 -5,105 C 0,85 -10,90 -5,70 C 0,55 -10,45 -5,30 C 0,15 -10,10 -5,-5 Z;
+            M -10,-5 C 10,5 15,-15 30,-10 C 45,5 60,-15 75,-10 C 90,5 95,-15 110,-10 C 105,10 115,5 110,25 C 105,50 115,60 110,75 C 105,90 115,95 110,110 C 90,105 95,115 75,110 C 60,105 45,115 30,110 C 15,105 10,115 -10,110 C -5,90 -15,95 -10,75 C -5,60 -15,50 -10,25 C -5,10 -15,5 -10,-5 Z;
+            M -5,-5 C 15,0 10,-10 30,-5 C 45,0 55,-10 70,-5 C 85,0 90,-10 105,-5 C 100,15 110,10 105,30 C 100,45 110,55 105,70 C 100,85 110,90 105,105 C 85,100 90,110 70,105 C 55,100 45,110 30,105 C 15,100 10,110 -5,105 C 0,85 -10,90 -5,70 C 0,55 -10,45 -5,30 C 0,15 -10,10 -5,-5 Z
           " />
         </path>
 
-        <!-- 4. Purple -->
+        <!-- 4. Purple (Cepat) -->
         <path stroke="url(#c4)" color="#b388ff">
-          <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
-            M 0,-10 C 20,20 80,20 100,-10 C 120,40 120,60 100,110 C 80,80 20,80 0,110 C -20,60 -20,40 0,-10;
-            M 0,-15 C 40,10 60,10 100,-15 C 110,30 110,70 100,115 C 60,90 40,90 0,115 C -10,70 -10,30 0,-15;
-            M 0,-5 C 10,30 90,30 100,-5 C 130,50 130,50 100,105 C 90,70 10,70 0,105 C -30,50 -30,50 0,-5;
-            M 0,-10 C 20,20 80,20 100,-10 C 120,40 120,60 100,110 C 80,80 20,80 0,110 C -20,60 -20,40 0,-10
+          <animate attributeName="d" dur="4.5s" repeatCount="indefinite" values="
+            M 0,-10 C 15,-5 10,-15 25,-10 C 40,-5 60,-15 75,-10 C 90,-5 95,-15 110,-10 C 105,10 110,5 110,25 C 105,40 115,60 110,75 C 105,90 115,95 110,110 C 90,105 95,115 75,110 C 60,105 40,115 25,110 C 10,105 15,115 0,110 C 5,90 -5,95 0,75 C 5,60 -5,40 0,25 C 5,10 -5,5 0,-10 Z;
+            M -10,0 C 10,-10 15,0 30,-10 C 45,-5 55,5 70,-10 C 85,-5 90,5 105,-10 C 110,10 100,15 110,30 C 105,45 110,55 110,70 C 105,85 115,90 110,105 C 90,100 95,110 70,105 C 55,100 45,110 30,105 C 15,100 10,110 -10,105 C -5,85 5,90 -10,70 C -5,55 5,45 -10,30 C -5,15 5,10 -10,0 Z;
+            M 0,-10 C 15,-5 10,-15 25,-10 C 40,-5 60,-15 75,-10 C 90,-5 95,-15 110,-10 C 105,10 110,5 110,25 C 105,40 115,60 110,75 C 105,90 115,95 110,110 C 90,105 95,115 75,110 C 60,105 40,115 25,110 C 10,105 15,115 0,110 C 5,90 -5,95 0,75 C 5,60 -5,40 0,25 C 5,10 -5,5 0,-10 Z
           " />
         </path>
 
-        <!-- 5. Green -->
+        <!-- 5. Green (Cepat) -->
         <path stroke="url(#c5)" color="#00b09b">
-          <animate attributeName="d" dur="12s" repeatCount="indefinite" values="
-            M -10,0 C 30,-20 70,-20 110,0 C 100,40 100,60 110,100 C 70,120 30,120 -10,100 C 0,60 0,40 -10,0;
-            M -10,10 C 40,-10 60,-10 110,10 C 90,50 90,50 110,90 C 60,110 40,110 -10,90 C 10,50 10,50 -10,10;
-            M -15,0 C 20,-30 80,-30 115,0 C 110,30 110,70 115,100 C 80,130 20,130 -15,100 C -10,70 -10,30 -15,0;
-            M -10,0 C 30,-20 70,-20 110,0 C 100,40 100,60 110,100 C 70,120 30,120 -10,100 C 0,60 0,40 -10,0
+          <animate attributeName="d" dur="3.2s" repeatCount="indefinite" values="
+            M -10,-5 C 5,-15 20,-5 35,-15 C 50,-5 65,-15 80,-5 C 95,-15 110,-5 110,-10 C 115,5 105,20 110,35 C 115,50 105,65 110,80 C 115,95 105,110 110,110 C 95,105 80,115 65,105 C 50,115 35,105 20,115 C 5,105 -10,115 -10,110 C -15,95 -5,80 -10,65 C -15,50 -5,35 -10,20 C -15,5 -5,-10 -10,-5 Z;
+            M -5,-10 C 10,-5 15,-15 30,-5 C 45,-15 55,-5 70,-15 C 85,-5 95,-15 110,-5 C 105,15 115,10 110,30 C 105,45 115,55 110,70 C 105,85 115,95 110,110 C 90,105 95,115 70,105 C 55,115 45,105 30,115 C 15,105 10,115 -5,105 C 0,85 -10,90 -5,70 C 0,55 -10,45 -5,30 C 0,15 -10,10 -5,-10 Z;
+            M -10,-5 C 5,-15 20,-5 35,-15 C 50,-5 65,-15 80,-5 C 95,-15 110,-5 110,-10 C 115,5 105,20 110,35 C 115,50 105,65 110,80 C 115,95 105,110 110,110 C 95,105 80,115 65,105 C 50,115 35,105 20,115 C 5,105 -10,115 -10,110 C -15,95 -5,80 -10,65 C -15,50 -5,35 -10,20 C -15,5 -5,-10 -10,-5 Z
           " />
         </path>
 
-        <!-- 6. Orange -->
+        <!-- 6. Orange (Cepat) -->
         <path stroke="url(#c6)" color="#ff9a9e">
-          <animate attributeName="d" dur="6s" repeatCount="indefinite" values="
-            M 0,0 C 50,-30 100,-10 100,20 C 130,50 80,80 100,100 C 50,130 10,110 0,80 C -30,50 20,20 0,0;
-            M 0,10 C 40,-20 110,0 100,30 C 120,60 90,70 100,110 C 60,120 20,100 0,90 C -20,60 10,30 0,10;
-            M 0,-10 C 60,-20 90,-20 100,10 C 110,40 100,70 100,90 C 40,140 20,120 0,70 C -40,40 10,10 0,-10;
-            M 0,0 C 50,-30 100,-10 100,20 C 130,50 80,80 100,100 C 50,130 10,110 0,80 C -30,50 20,20 0,0
+          <animate attributeName="d" dur="5s" repeatCount="indefinite" values="
+            M 0,-10 C 20,0 20,-20 40,-10 C 60,0 60,-20 80,-10 C 100,0 100,-20 110,-10 C 110,10 100,20 110,40 C 110,60 100,60 110,80 C 110,100 100,100 110,110 C 100,110 80,100 80,110 C 60,110 60,100 40,110 C 20,110 20,100 0,110 C 0,90 10,80 0,80 C 0,60 10,60 0,40 C 0,20 10,20 0,-10 Z;
+            M -10,0 C 10,-20 20,0 40,-20 C 60,0 60,-20 80,-20 C 100,0 100,-20 110,-20 C 120,0 110,20 120,40 C 110,60 120,60 120,80 C 110,100 120,100 110,120 C 100,100 80,120 80,100 C 60,120 60,100 40,120 C 20,100 20,120 -10,100 C 0,80 -10,80 0,60 C -10,60 0,40 -10,20 C 0,20 -10,0 -10,0 Z;
+            M 0,-10 C 20,0 20,-20 40,-10 C 60,0 60,-20 80,-10 C 100,0 100,-20 110,-10 C 110,10 100,20 110,40 C 110,60 100,60 110,80 C 110,100 100,100 110,110 C 100,110 80,100 80,110 C 60,110 60,100 40,110 C 20,110 20,100 0,110 C 0,90 10,80 0,80 C 0,60 10,60 0,40 C 0,20 10,20 0,-10 Z
           " />
         </path>
 
-        <!-- 7. Blue -->
+        <!-- 7. Blue (Cepat) -->
         <path stroke="url(#c7)" color="#4facfe">
-          <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
-            M 100,0 C 50,-20 0,-20 0,10 C -30,40 20,80 0,100 C 50,120 100,120 100,90 C 130,60 80,20 100,0;
-            M 100,10 C 60,-10 10,-10 0,20 C -20,50 10,70 0,110 C 40,110 90,110 100,80 C 120,50 90,30 100,10;
-            M 100,-10 C 40,-30 -10,-10 0,20 C -10,40 30,70 0,90 C 60,130 110,110 100,80 C 140,50 100,10 100,-10;
-            M 100,0 C 50,-20 0,-20 0,10 C -30,40 20,80 0,100 C 50,120 100,120 100,90 C 130,60 80,20 100,0
+          <animate attributeName="d" dur="3.8s" repeatCount="indefinite" values="
+            M -5,-5 C 15,-15 15,5 35,-5 C 55,-15 55,5 75,-5 C 95,-15 95,5 105,-5 C 115,15 100,15 110,35 C 120,55 100,55 110,75 C 120,95 100,95 110,105 C 95,115 95,100 75,110 C 55,120 55,100 35,110 C 15,120 15,100 -5,110 C -15,95 5,95 -5,75 C -15,55 5,55 -5,35 C -15,15 5,15 -5,-5 Z;
+            M -5,-15 C 15,5 15,-5 35,-15 C 55,5 55,-5 75,-15 C 95,5 95,-5 105,-15 C 115,5 100,25 110,35 C 120,45 100,65 110,75 C 120,85 100,105 110,105 C 95,95 95,115 75,100 C 55,120 55,100 35,115 C 15,120 15,100 -5,115 C -15,95 5,95 -5,75 C -15,55 5,65 -5,45 C -15,25 5,15 -5,-15 Z;
+            M -5,-5 C 15,-15 15,5 35,-5 C 55,-15 55,5 75,-5 C 95,-15 95,5 105,-5 C 115,15 100,15 110,35 C 120,55 100,55 110,75 C 120,95 100,95 110,105 C 95,115 95,100 75,110 C 55,120 55,100 35,110 C 15,120 15,100 -5,110 C -15,95 5,95 -5,75 C -15,55 5,55 -5,35 C -15,15 5,15 -5,-5 Z
           " />
         </path>
 
-        <!-- 8. Red -->
+        <!-- 8. Red (Cepat) -->
         <path stroke="url(#c8)" color="#ff0844">
-          <animate attributeName="d" dur="13s" repeatCount="indefinite" values="
-            M 50,-10 C 80,-20 120,0 100,30 C 100,50 80,60 100,90 C 80,120 40,110 10,100 C -20,80 0,50 10,30 C 20,0 0,-10 50,-10;
-            M 50,-20 C 90,-10 110,10 100,40 C 90,60 100,70 90,100 C 70,110 30,120 0,90 C -10,70 10,40 20,20 C 30,10 10,-10 50,-20;
-            M 50,-10 C 70,-30 110,-10 110,20 C 110,40 90,60 110,80 C 90,110 50,130 20,110 C 0,90 -10,60 0,40 C 10,20 -10,0 50,-10;
-            M 50,-10 C 80,-20 120,0 100,30 C 100,50 80,60 100,90 C 80,120 40,110 10,100 C -20,80 0,50 10,30 C 20,0 0,-10 50,-10
+          <animate attributeName="d" dur="4.2s" repeatCount="indefinite" values="
+            M 0,-5 C 20,-10 20,10 40,-5 C 60,-10 60,10 80,-5 C 100,-10 100,10 110,-5 C 110,15 100,20 110,40 C 110,60 100,60 110,80 C 110,100 100,100 110,110 C 100,105 80,110 80,105 C 60,110 60,105 40,110 C 20,105 20,110 0,105 C 0,85 10,80 0,80 C 0,60 10,60 0,40 C 0,20 10,20 0,-5 Z;
+            M -10,-5 C 10,10 20,-10 40,10 C 60,-10 60,10 80,10 C 100,-10 100,10 110,10 C 120,10 110,30 120,40 C 120,60 110,70 120,80 C 120,100 110,100 110,120 C 100,100 80,120 80,100 C 60,120 60,100 40,120 C 20,100 20,120 -10,100 C 0,80 -10,80 0,60 C -10,60 0,40 -10,20 C 0,20 -10,-5 -10,-5 Z;
+            M 0,-5 C 20,-10 20,10 40,-5 C 60,-10 60,10 80,-5 C 100,-10 100,10 110,-5 C 110,15 100,20 110,40 C 110,60 100,60 110,80 C 110,100 100,100 110,110 C 100,105 80,110 80,105 C 60,110 60,105 40,110 C 20,105 20,110 0,105 C 0,85 10,80 0,80 C 0,60 10,60 0,40 C 0,20 10,20 0,-5 Z
           " />
         </path>
       </svg>
