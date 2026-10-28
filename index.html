@@ -14,7 +14,7 @@
 
   :root {
     --accent: #d4a373; 
-    --bg-dark: #05050A;
+    --bg-dark: #020205;
   }
 
   html, body { height: 100%; }
@@ -36,14 +36,14 @@
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
     background-size: cover; background-position: center;
-    z-index: -5; transition: opacity 1.5s ease;
+    z-index: -6; transition: opacity 1.5s ease;
     opacity: 1;
   }
   .overlay-sunflower {
     position: absolute; inset: 0;
-    background: rgba(255, 255, 255, 0.3); 
-    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
-    z-index: -4; transition: opacity 1.5s ease;
+    background: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    z-index: -5; transition: opacity 1.5s ease;
     opacity: 1;
   }
   
@@ -51,33 +51,108 @@
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop'); 
     background-size: cover; background-position: center;
-    z-index: -5; transition: opacity 1.5s ease;
+    z-index: -6; transition: opacity 1.5s ease;
     opacity: 0;
   }
   .overlay-galaxy {
     position: absolute; inset: 0;
-    background: rgba(5, 5, 10, 0.5); 
-    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-    z-index: -4; transition: opacity 1.5s ease;
+    background: rgba(2, 2, 5, 0.4); 
+    z-index: -5; transition: opacity 1.5s ease;
     opacity: 0;
   }
 
-  /* Partikel Bintang Jatuh */
+  /* =========================================
+     SATURNUS 3D BERPUTAR
+     ========================================= */
+  .saturn-system {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 400px; height: 400px;
+    perspective: 1200px;
+    z-index: -2;
+    opacity: 0; transition: opacity 2s ease;
+    /* Animasi planet melayang */
+    animation: planetFloat 8s ease-in-out infinite alternate;
+  }
+  body.modal-open .saturn-system { opacity: 1; }
+
+  .planet {
+    position: absolute; top: 50%; left: 50%;
+    width: 160px; height: 160px;
+    margin: -80px 0 0 -80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #fff7e6, #d4a373, #6b3e1b, #1a0a02);
+    box-shadow: inset -20px -20px 50px rgba(0,0,0,1), 0 0 60px rgba(212, 163, 115, 0.4);
+    z-index: 2;
+  }
+
+  .ring-group {
+    position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0;
+    transform-style: preserve-3d;
+    transform: rotateX(75deg) rotateY(-15deg) rotateZ(0deg);
+    /* Animasi cincin berputar */
+    animation: spinRings 15s linear infinite;
+  }
+
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      rgba(212,163,115,0.1) 0%,
+      rgba(255, 230, 200, 0.8) 25%,
+      rgba(212,163,115,0.1) 50%,
+      rgba(212,163,115,0.5) 75%,
+      rgba(212,163,115,0.1) 100%
+    );
+  }
+
+  .ring-1 {
+    width: 380px; height: 380px; margin: -190px 0 0 -190px;
+    -webkit-mask: radial-gradient(transparent 62%, #000 63%, #000 100%);
+    mask: radial-gradient(transparent 62%, #000 63%, #000 100%);
+  }
+  .ring-2 {
+    width: 310px; height: 310px; margin: -155px 0 0 -155px;
+    -webkit-mask: radial-gradient(transparent 68%, #000 69%, #000 100%);
+    mask: radial-gradient(transparent 68%, #000 69%, #000 100%);
+  }
+  .ring-3 {
+    width: 250px; height: 250px; margin: -125px 0 0 -125px;
+    -webkit-mask: radial-gradient(transparent 72%, #000 73%, #000 100%);
+    mask: radial-gradient(transparent 72%, #000 73%, #000 100%);
+  }
+
+  @keyframes spinRings {
+    0% { transform: rotateX(75deg) rotateY(-15deg) rotateZ(0deg); }
+    100% { transform: rotateX(75deg) rotateY(-15deg) rotateZ(360deg); }
+  }
+  @keyframes planetFloat {
+    0% { transform: translate(-50%, -50%) scale(0.8) translateY(0px); }
+    100% { transform: translate(-50%, -50%) scale(0.8) translateY(-15px); }
+  }
+
+  /* =========================================
+     EFEK BINTANG JATUH
+     ========================================= */
   .stars {
     position: absolute; inset: 0; z-index: -3;
     pointer-events: none; opacity: 0; transition: opacity 2s ease;
   }
+  body.modal-open .stars { opacity: 1; }
+  
   .star {
     position: absolute; width: 2px; height: 2px;
     background: #fff; border-radius: 50%;
-    box-shadow: 0 0 5px #fff;
+    box-shadow: 0 0 6px #fff;
     animation: shootingStar linear infinite;
   }
   @keyframes shootingStar {
     0% { transform: translateY(-100px) translateX(0); opacity: 0; }
     10% { opacity: 1; }
     90% { opacity: 1; }
-    100% { transform: translateY(100vh) translateX(-200px); opacity: 0; }
+    100% { transform: translateY(100vh) translateX(-150px); opacity: 0; }
   }
 
   /* =========================================
@@ -116,7 +191,7 @@
   .btn:hover { background: var(--accent); transform: translateY(-3px); }
 
   /* =========================================
-     POP-UP MODAL 
+     OVERLAY & TEKS MELAYANG (TANPA KARTU)
      ========================================= */
   .overlay {
     position: fixed; inset: 0; z-index: 50;
@@ -126,79 +201,41 @@
   }
   .overlay.open { opacity: 1; visibility: visible; }
 
-  /* WADAH KARTU & PITA ASTRAL */
-  .card-wrapper {
+  /* Teks melayang langsung di luar angkasa */
+  .message-container {
     position: relative;
-    width: min(420px, 100%);
-    display: grid; place-items: center;
+    width: min(460px, 100%);
+    padding: 40px 20px; 
+    text-align: center;
+    z-index: 10;
   }
-
-  /* PITA ASTRAL (GARIS CAHAYA) */
-  .astral-ribbons {
-    position: absolute;
-    width: 140%; height: 140%;
-    z-index: 5; pointer-events: none;
-    opacity: 0;
-    transition: opacity 1.5s ease 0.5s;
-  }
-  .overlay.open .astral-ribbons { opacity: 1; }
-
-  .astral-ribbons path {
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    /* Efek pendaran neon */
-    filter: drop-shadow(0 0 8px currentColor);
-  }
-
-  /* =========================================
-     KARTU KACA GALAKSI
-     ========================================= */
-  .card-content {
-    position: relative;
-    width: 100%;
-    max-height: 80vh; overflow-y: auto;
-    padding: 60px 35px; text-align: center;
-    
-    background: rgba(15, 15, 25, 0.4); /* Kaca gelap transparan */
-    backdrop-filter: blur(16px); 
-    -webkit-backdrop-filter: blur(16px);
-    
-    border-radius: 24px; 
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
-    
-    transform: translateY(40px) scale(0.95); opacity: 0;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-    z-index: 10; 
-  }
-  .overlay.open .card-content { transform: translateY(0) scale(1); opacity: 1; }
 
   /* Tombol Close */
   .close {
-    position: absolute; top: 20px; right: 20px; z-index: 20;
-    width: 32px; height: 32px; border: none; background: rgba(255,255,255,0.1);
+    position: absolute; top: -20px; right: 10px; z-index: 20;
+    width: 36px; height: 36px; border: none; background: rgba(255,255,255,0.1);
     border-radius: 50%; color: #ccc; font-size: 1.2rem; line-height: 1;
     cursor: pointer; transition: 0.3s;
     display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(5px);
   }
   .close:hover { background: #fff; color: #111; transform: rotate(90deg); }
 
   /* =========================================
-     TEKS & ANIMASI
+     TIPOGRAFI & ANIMASI
      ========================================= */
-  .card-content h2 {
+  .message-container h2 {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
-    font-size: 2.4rem; color: var(--accent); margin-bottom: 25px;
-    text-shadow: 0 2px 15px rgba(212, 163, 115, 0.4);
+    font-size: 2.6rem; color: var(--accent); margin-bottom: 25px;
+    text-shadow: 0 4px 15px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.8);
   }
 
-  .card-content p.msg {
+  .message-container p.msg {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem; line-height: 1.7; font-style: italic; font-weight: 400;
+    font-size: 1.5rem; line-height: 1.8; font-style: italic; font-weight: 400;
     color: #fff; 
-    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+    /* Bayangan teks ekstra kuat agar tetap terbaca di atas planet/galaksi */
+    text-shadow: 0 2px 10px rgba(0,0,0,1), 0 0 20px rgba(0,0,0,0.8);
     display: flex; flex-direction: column;
     min-height: 1em; letter-spacing: 0.5px;
   }
@@ -218,9 +255,9 @@
   @keyframes blink { 50% { opacity: 0; } }
 
   .signature {
-    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.6rem;
     color: var(--accent); margin-top: 35px; opacity: 0;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    text-shadow: 0 2px 10px rgba(0,0,0,1);
     animation: fadeUp 1s ease 4s forwards;
   }
   @keyframes fadeUp {
@@ -228,79 +265,57 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* Mobile Settings */
   @media (max-width: 480px) {
-    .card-content { padding: 50px 25px; }
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
-    .card-content p.msg { font-size: 1.25rem; }
+    .message-container p.msg { font-size: 1.3rem; }
+    .saturn-system { transform: translate(-50%, -50%) scale(0.55); }
+    @keyframes planetFloat {
+      0% { transform: translate(-50%, -50%) scale(0.55) translateY(0px); }
+      100% { transform: translate(-50%, -50%) scale(0.55) translateY(-10px); }
+    }
   }
 </style>
 </head>
 <body>
 
-  <!-- Background -->
-  <div class="bg-sunflower" id="bgSunflower"></div>
-  <div class="overlay-sunflower" id="overlaySunflower"></div>
-  <div class="bg-galaxy" id="bgGalaxy"></div>
-  <div class="overlay-galaxy" id="overlayGalaxy"></div>
+  <!-- Background Layer -->
+  <div class="bg-sunflower"></div>
+  <div class="overlay-sunflower"></div>
+  <div class="bg-galaxy"></div>
+  <div class="overlay-galaxy"></div>
+  
+  <!-- Planet Saturnus 3D -->
+  <div class="saturn-system">
+    <div class="ring-group">
+      <div class="ring ring-1"></div>
+      <div class="ring ring-2"></div>
+      <div class="ring ring-3"></div>
+    </div>
+    <div class="planet"></div>
+  </div>
+
+  <!-- Bintang Jatuh -->
   <div class="stars" id="starContainer"></div>
 
   <!-- Halaman Utama -->
-  <main class="stage">
+  <main class="stage" id="stage">
     <h1 class="title">Untuk Bila</h1>
     <p class="subtitle">A Little Note For You</p>
     <button class="btn" id="openBtn" type="button">Buka Pesan</button>
   </main>
 
-  <!-- Pop-up Card -->
+  <!-- Pop-up Teks -->
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
-    <div class="card-wrapper">
+    
+    <div class="message-container">
+      <button class="close" id="closeBtn" type="button">&times;</button>
       
-      <!-- PITA CAHAYA ASTRAL (MENGORBIT) -->
-      <svg class="astral-ribbons" viewBox="0 0 400 400">
-        <defs>
-          <linearGradient id="gradPink" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#ff758c"/></linearGradient>
-          <linearGradient id="gradCyan" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#0072ff"/></linearGradient>
-          <linearGradient id="gradGold" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#faedcd"/></linearGradient>
-        </defs>
-
-        <!-- Pita 1: Melingkar Halus -->
-        <path stroke="url(#gradPink)" color="#ff7eb3">
-          <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
-            M 50,100 C 150,-50 250,-50 350,100 C 450,250 300,450 200,450 C 100,450 -50,250 50,100 Z;
-            M 100,50 C 50,150 -50,250 100,350 C 250,450 450,300 450,200 C 450,100 250,-50 100,50 Z;
-            M 50,100 C 150,-50 250,-50 350,100 C 450,250 300,450 200,450 C 100,450 -50,250 50,100 Z
-          " />
-        </path>
-
-        <!-- Pita 2: Melingkar Halus (Berlawanan Arah) -->
-        <path stroke="url(#gradCyan)" color="#00e5ff">
-          <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
-            M 350,300 C 250,450 150,450 50,300 C -50,150 100,-50 200,-50 C 300,-50 450,150 350,300 Z;
-            M 300,350 C 450,250 450,150 300,50 C 150,-50 -50,100 -50,200 C -50,300 150,450 300,350 Z;
-            M 350,300 C 250,450 150,450 50,300 C -50,150 100,-50 200,-50 C 300,-50 450,150 350,300 Z
-          " />
-        </path>
-
-        <!-- Pita 3: Menyilang Tengah -->
-        <path stroke="url(#gradGold)" color="#d4a373">
-          <animate attributeName="d" dur="12s" repeatCount="indefinite" values="
-            M 0,200 C 100,100 300,300 400,200 C 300,100 100,300 0,200 Z;
-            M 200,0 C 100,100 300,300 200,400 C 100,300 300,100 200,0 Z;
-            M 0,200 C 100,100 300,300 400,200 C 300,100 100,300 0,200 Z
-          " />
-        </path>
-      </svg>
-
-      <!-- Konten Pesan -->
-      <div class="card-content">
-        <button class="close" id="closeBtn" type="button">&times;</button>
-        
-        <h2>Hai, Bila</h2>
-        <p class="msg" id="msgContainer"></p>
-        <p class="signature">— Dari aku, Fitra</p>
-      </div>
-      
+      <h2>Hai, Bila</h2>
+      <p class="msg" id="msgContainer"></p>
+      <p class="signature">— Dari aku, Fitra</p>
     </div>
+    
   </div>
 
 <script>
@@ -308,12 +323,7 @@
   const openBtn  = document.getElementById('openBtn');
   const closeBtn = document.getElementById('closeBtn');
   const msgContainer = document.getElementById('msgContainer');
-
-  const bgSunflower = document.getElementById('bgSunflower');
-  const overlaySunflower = document.getElementById('overlaySunflower');
-  const bgGalaxy = document.getElementById('bgGalaxy');
-  const overlayGalaxy = document.getElementById('overlayGalaxy');
-  const stars = document.getElementById('starContainer');
+  const stage = document.getElementById('stage');
 
   const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
 
@@ -370,30 +380,22 @@
     typeLine();
   }
 
-  // Buka Modal & Transisi Background
+  // Buka Modal (Transisi Background & Saturnus)
   const openCard = () => {
     overlay.classList.add('open');
     
-    // Transisi Background
-    bgSunflower.style.opacity = '0';
-    overlaySunflower.style.opacity = '0';
-    bgGalaxy.style.opacity = '1';
-    overlayGalaxy.style.opacity = '1';
-    stars.style.opacity = '1'; // Munculkan bintang
+    // Memicu transisi background galaksi dan saturnus lewat class body
+    document.body.classList.add('modal-open');
 
-    setTimeout(typeMessage, 600); 
+    setTimeout(typeMessage, 800); 
   };
 
   // Tutup Modal
   const closeCard = () => {
     overlay.classList.remove('open');
     
-    // Kembalikan Background
-    bgSunflower.style.opacity = '1';
-    overlaySunflower.style.opacity = '1';
-    bgGalaxy.style.opacity = '0';
-    overlayGalaxy.style.opacity = '0';
-    stars.style.opacity = '0';
+    // Kembalikan ke bunga matahari
+    document.body.classList.remove('modal-open');
 
     clearTimeout(typingTimer);
     setTimeout(() => { msgContainer.innerHTML = ''; }, 500); 
@@ -401,21 +403,21 @@
 
   // Generate Bintang Jatuh
   function createStars() {
-    for(let i=0; i<30; i++) {
+    const starsContainer = document.getElementById('starContainer');
+    for(let i=0; i<40; i++) {
       const star = document.createElement('div');
       star.className = 'star';
       star.style.left = Math.random() * 100 + 'vw';
-      star.style.top = Math.random() * -100 + 'px';
-      star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      star.style.top = (Math.random() * -100) + 'px';
+      star.style.animationDuration = (Math.random() * 4 + 3) + 's';
       star.style.animationDelay = (Math.random() * 5) + 's';
-      stars.appendChild(star);
+      starsContainer.appendChild(star);
     }
   }
   createStars();
 
   openBtn.addEventListener('click', openCard);
   closeBtn.addEventListener('click', closeCard);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeCard(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
 </script>
 </body>
