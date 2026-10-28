@@ -7,7 +7,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Memanggil font tulisan tangan: Dancing Script & Caveat -->
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,10 +77,11 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* FONT TULISAN TANGAN UNTUK JUDUL UTAMA */
   .title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: 600;
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3.5rem, 12vw, 5.5rem);
+    font-weight: 700;
     line-height: 1.2;
     background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
     -webkit-background-clip: text;
@@ -93,6 +95,7 @@
     letter-spacing: 2px;
     color: var(--text-sub);
     margin-bottom: 40px;
+    font-size: 0.9rem;
   }
 
   .btn {
@@ -196,6 +199,14 @@
     50% { transform: translateY(-10px); }
   }
 
+  /* FONT TULISAN TANGAN UNTUK JUDUL POPUP */
+  .front-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
   .btn-inner {
     margin-top: 25px;
     padding: 12px 35px;
@@ -220,7 +231,7 @@
   .icon-heart {
     font-size: 2rem;
     color: var(--neon-pink);
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: inline-block;
     animation: heartbeat 1.5s infinite;
     filter: drop-shadow(0 0 10px var(--neon-pink));
@@ -233,20 +244,23 @@
     60% { transform: scale(1); }
   }
 
+  /* FONT TULISAN TANGAN UNTUK SAPAAN */
   .card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 6vw, 2.4rem);
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(2.5rem, 8vw, 3.2rem);
     font-weight: 600;
     color: #fff;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   }
 
+  /* FONT TULISAN TANGAN UNTUK ISI PESAN */
   .card p.msg {
-    font-size: clamp(0.95rem, 3vw, 1.05rem);
-    line-height: 1.8;
-    font-weight: 300;
-    color: #d1d5db;
+    font-family: 'Caveat', cursive;
+    font-size: clamp(1.5rem, 5vw, 1.8rem);
+    line-height: 1.4;
+    font-weight: 400;
+    color: #e2e8f0;
     white-space: pre-wrap;
     min-height: 1em;
   }
@@ -261,11 +275,10 @@
   @keyframes blink { 50% { opacity: 0; } }
 
   .signature {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.2rem;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8rem;
     color: var(--neon-blue);
-    margin-top: 30px;
+    margin-top: 20px;
     opacity: 0;
     text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
     animation: fadeUp 1s ease 2.5s forwards;
@@ -287,8 +300,7 @@
 
   <main class="stage">
     <h1 class="title">Untuk Bila</h1>
-    <p class="subtitle">Sebuah pesan kecil yang dibuat khusus untukmu</p>
-    <!-- Tombol di halaman utama -->
+    <p class="subtitle">SEBUAH PESAN KECIL YANG DIBUAT KHUSUS UNTUKMU</p>
     <button class="btn" id="openBtn" type="button">Buka Pesan</button>
   </main>
 
@@ -299,8 +311,8 @@
       <!-- TAMPILAN DEPAN (SEBELUM DIKLIK) -->
       <div id="cardFront">
         <div class="envelope-icon">&#9993;</div> <!-- Ikon Amplop -->
-        <h2>Ada Pesan!</h2>
-        <p style="color: var(--text-sub); font-size: 0.9rem;">Pesan ini hanya untuk Bila</p>
+        <h2 class="front-title">Ada Pesan!</h2>
+        <p style="color: var(--text-sub); font-size: 0.9rem; font-family: 'Poppins', sans-serif;">Pesan ini hanya untuk Bila</p>
         <button class="btn-inner" id="revealBtn">Klik Disini</button>
       </div>
 
@@ -321,14 +333,13 @@
   const closeBtn = document.getElementById('closeBtn');
   const msgEl    = document.getElementById('msgText');
   
-  // Elemen untuk ganti tampilan
   const cardFront = document.getElementById('cardFront');
   const cardBack  = document.getElementById('cardBack');
   const revealBtn = document.getElementById('revealBtn');
 
   // ==========================================
-  // UBAH TEKS PESAN DI SINI:
-  const MESSAGE = 'Aku mungkin bukan orang yang sempurna.\nTapi lewat halaman kecil ini, aku ingin kamu tahu kalau kamu sangat berarti.\n\nTerima kasih sudah bertahan dan berjalan sejauh ini bersamaku.\n\nI love you, Bila.';
+  // PESAN SUDAH DIGANTI DI SINI:
+  const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏';
   // ==========================================
 
   let typingTimer = null;
@@ -351,7 +362,7 @@
           cursor.before(document.createTextNode(ch));
         }
         i++;
-        const pause = /[.,!?]/.test(ch) ? 100 : 25; 
+        const pause = /[.,!?]/.test(ch) ? 100 : 30; 
         typingTimer = setTimeout(step, pause);
       } else {
         setTimeout(() => cursor.remove(), 1500);
@@ -360,37 +371,31 @@
     step();
   }
 
-  // Buka Pop-up (reset ke tampilan amplop dulu)
   const openCard = () => {
     overlay.classList.add('open');
-    // Sembunyikan pesan, munculkan amplop
     cardFront.style.display = 'block';
     cardBack.style.display = 'none';
     clearTimeout(typingTimer);
     msgEl.innerHTML = '';
   };
 
-  // Tutup Pop-up
   const closeCard = () => {
     overlay.classList.remove('open');
     clearTimeout(typingTimer);
   };
 
-  // Klik tombol di halaman utama
   openBtn.addEventListener('click', openCard);
 
-  // Klik tombol "Klik Disini" di dalam pop-up
   revealBtn.addEventListener('click', () => {
-    cardFront.style.display = 'none'; // Sembunyikan amplop
-    cardBack.style.display = 'block'; // Munculkan pesan
-    typeMessage();                    // Mulai ketik
+    cardFront.style.display = 'none'; 
+    cardBack.style.display = 'block'; 
+    typeMessage();                    
   });
 
   closeBtn.addEventListener('click', closeCard);
   overlay.addEventListener('click', e => { if (e.target === overlay) closeCard(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
 
-  // Generate bintang-bintang kecil
   (function createStars() {
     const container = document.getElementById('stars');
     const numStars = 40;
@@ -407,260 +412,6 @@
       container.appendChild(star);
     }
   })();
-</script>
-</body>
-</html>tas di kartu */
-  .card::after {
-    content: '';
-    position: absolute; inset: 0;
-    border-radius: inherit; pointer-events: none;
-    background: linear-gradient(105deg,
-      transparent 40%,
-      rgba(255,255,255,.55) 50%,
-      transparent 60%);
-    background-size: 300% 300%;
-    animation: sweep 5.5s ease-in-out 1.5s infinite;
-    mix-blend-mode: soft-light;
-  }
-  @keyframes sweep {
-    0%   { background-position: 200% 0; }
-    60%  { background-position: -80% 0; }
-    100% { background-position: -80% 0; }
-  }
-
-  .close {
-    position: absolute; top: 14px; right: 14px; z-index: 3;
-    width: 34px; height: 34px; border: none; border-radius: 50%;
-    background: transparent; color: #a8979c;
-    font-size: 1.4rem; line-height: 1; cursor: pointer;
-    transition: background .3s, color .3s, transform .3s;
-  }
-  .close:hover {
-    background: rgba(200,161,101,.14);
-    color: #5c464c;
-    transform: rotate(90deg);
-  }
-
-  /* Ornamen hati berdenyut */
-  .ornament {
-    color: var(--gold);
-    font-size: 1.5rem;
-    letter-spacing: .4em;
-    margin-bottom: 14px;
-    display: inline-block;
-    animation: heartbeat 1.8s ease-in-out .8s infinite;
-  }
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    15%      { transform: scale(1.18); }
-    30%      { transform: scale(1); }
-    45%      { transform: scale(1.12); }
-    60%      { transform: scale(1); }
-  }
-
-  .card h2 {
-    font-family: 'Great Vibes', cursive;
-    font-weight: 400;
-    font-size: clamp(2rem, 7vw, 2.7rem);
-    color: #5c464c; margin-bottom: 18px;
-  }
-
-  .card p.msg {
-    font-size: clamp(1.02rem, 3.4vw, 1.16rem);
-    line-height: 1.95; color: #5b4a4f;
-    font-style: italic;
-    min-height: 1em;
-  }
-
-  /* Kursor ketik */
-  .type-cursor {
-    display: inline-block;
-    width: 2px; height: 1em;
-    background: var(--rose);
-    margin-left: 2px;
-    vertical-align: -2px;
-    animation: blink .9s steps(1) infinite;
-  }
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
-
-  .divider {
-    display: flex; align-items: center; gap: 12px;
-    margin: 26px auto 18px; width: 70%;
-    color: var(--gold); font-size: .8rem;
-    opacity: 0;
-    animation: fadeUp .9s ease 2.6s forwards;
-  }
-  .divider::before, .divider::after {
-    content: ''; flex: 1; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(200,161,101,.7), transparent);
-  }
-
-  .signature {
-    font-family: 'Great Vibes', cursive;
-    font-size: 1.5rem; color: var(--rose);
-    opacity: 0;
-    animation: fadeUp .9s ease 2.9s forwards;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Sparkle di sekitar kartu */
-  .sparkle {
-    position: absolute;
-    color: var(--gold);
-    font-size: 12px;
-    pointer-events: none;
-    animation: twinkle 2.4s ease-in-out infinite;
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0; transform: scale(.4) rotate(0deg); }
-    50%      { opacity: 1; transform: scale(1.1) rotate(180deg); }
-  }
-
-  /* Responsif */
-  @media (max-width: 480px) {
-    .card { padding: 44px 24px 34px; }
-    .card::before { inset: 8px; }
-  }
-
-  /* Kurangi animasi */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: .01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: .01ms !important;
-    }
-  }
-</style>
-</head>
-<body>
-
-  <div class="petals" aria-hidden="true"></div>
-
-  <main class="stage">
-    <p class="eyebrow">Sebuah Pesan Kecil</p>
-    <h1 class="title">Untuk Kamu</h1>
-    <p class="subtitle">yang selalu jadi bagian terhangat dalam hariku</p>
-    <div class="rule"></div>
-    <button class="btn" id="openBtn" type="button">Buka Lagi</button>
-  </main>
-
-  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="cardTitle">
-    <div class="card" id="card">
-      <button class="close" id="closeBtn" type="button" aria-label="Tutup">&times;</button>
-
-      <div class="ornament">&#10086;</div>
-
-      <h2 id="cardTitle">Hai, Sayang</h2>
-
-      <p class="msg" id="msgText"></p>
-
-      <div class="divider">&#9825;</div>
-
-      <p class="signature">— Dari aku</p>
-    </div>
-  </div>
-
-<script>
-  const overlay  = document.getElementById('overlay');
-  const openBtn  = document.getElementById('openBtn');
-  const closeBtn = document.getElementById('closeBtn');
-  const msgEl    = document.getElementById('msgText');
-  const cardEl   = document.getElementById('card');
-
-  const MESSAGE = 'Terima kasih sudah hadir dan memilih untuk tinggal.\nSetiap hal kecil darimu selalu membuat hariku terasa jauh lebih ringan.\n\nAku sayang kamu — hari ini, besok, dan seterusnya.';
-
-  let typingTimer = null;
-
-  // Efek mengetik dengan jeda per baris
-  function typeMessage() {
-    clearTimeout(typingTimer);
-    msgEl.innerHTML = '';
-    let i = 0;
-
-    const cursor = document.createElement('span');
-    cursor.className = 'type-cursor';
-    msgEl.appendChild(cursor);
-
-    function step() {
-      if (i < MESSAGE.length) {
-        const ch = MESSAGE[i];
-        // Sisipkan sebelum kursor
-        if (ch === '\n') {
-          cursor.before(document.createElement('br'));
-        } else {
-          cursor.before(document.createTextNode(ch));
-        }
-        i++;
-        // jeda lebih lama di tanda baca
-        const pause = /[.,!—]/.test(ch) ? 90 : 22;
-        typingTimer = setTimeout(step, pause);
-      } else {
-        // selesai — hilangkan kursor setelah jeda
-        setTimeout(() => cursor.remove(), 1200);
-      }
-    }
-    step();
-  }
-
-  const openCard = () => {
-    overlay.classList.add('open');
-    setTimeout(typeMessage, 500);
-    spawnSparkles();
-  };
-  const closeCard = () => {
-    overlay.classList.remove('open');
-    clearTimeout(typingTimer);
-    msgEl.innerHTML = '';
-    cardEl.querySelectorAll('.sparkle').forEach(s => s.remove());
-  };
-
-  openBtn.addEventListener('click', openCard);
-  closeBtn.addEventListener('click', closeCard);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeCard(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
-
-  // Pop-up otomatis setelah halaman dimuat
-  window.addEventListener('load', () => setTimeout(openCard, 1400));
-
-  // Kelopak / hati melayang
-  (function createPetals() {
-    const layer  = document.querySelector('.petals');
-    const glyphs = ['\u2661', '\u2740', '\u2766', '\u273F'];
-    for (let i = 0; i < 18; i++) {
-      const s = document.createElement('span');
-      s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
-      s.style.left              = Math.random() * 100 + 'vw';
-      s.style.fontSize          = (12 + Math.random() * 16) + 'px';
-      s.style.animationDuration = (14 + Math.random() * 14) + 's';
-      s.style.animationDelay    = (-Math.random() * 22) + 's';
-      s.style.opacity           = 0.35 + Math.random() * 0.4;
-      layer.appendChild(s);
-    }
-  })();
-
-  // Sparkle di sekitar kartu saat terbuka
-  function spawnSparkles() {
-    cardEl.querySelectorAll('.sparkle').forEach(s => s.remove());
-    const positions = [
-      { top: '10%', left: '6%'  }, { top: '18%', right: '8%' },
-      { top: '55%', left: '4%'  }, { top: '62%', right: '6%' },
-      { bottom: '14%', left: '12%' }, { bottom: '10%', right: '14%' },
-      { top: '42%', left: '3%'  }, { top: '38%', right: '4%' }
-    ];
-    positions.forEach((pos, idx) => {
-      const sp = document.createElement('span');
-      sp.className = 'sparkle';
-      sp.textContent = '✦';
-      Object.assign(sp.style, pos);
-      sp.style.animationDelay = (idx * 0.3) + 's';
-      cardEl.appendChild(sp);
-    });
-  }
 </script>
 </body>
 </html>
