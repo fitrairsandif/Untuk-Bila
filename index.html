@@ -16,7 +16,7 @@
   :root {
     --text-main: #2c2c2c; 
     --text-sub: #7a7a7a;
-    --gold: #d49a37; 
+    --gold: #d49a37; /* Warna emas yang sedikit lebih hangat, mendekati kuning bunga matahari */
     --card-bg: #ffffff;
   }
 
@@ -32,6 +32,7 @@
     position: relative;
     
     /* BACKGROUND BUNGA MATAHARI */
+    /* Gambar ladang bunga matahari + overlay putih transparan agar elegan & teks terbaca */
     background-image: 
       linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.85)),
       url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
@@ -116,7 +117,7 @@
     padding: 60px 40px;
     text-align: center;
     background: var(--card-bg);
-    border-radius: 8px; 
+    border-radius: 8px; /* Sedikit lebih rounded agar manis */
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
     transform: translateY(20px) scale(0.98);
     opacity: 0;
@@ -150,6 +151,41 @@
     transform: rotate(90deg);
   }
 
+  /* --- TAMPILAN DEPAN (AMPLOP) --- */
+  .envelope-icon {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 25px;
+    display: inline-block;
+  }
+
+  .front-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--text-main);
+    margin-bottom: 10px;
+  }
+
+  .btn-inner {
+    margin-top: 30px;
+    padding: 12px 35px;
+    background: var(--text-main);
+    border: 1px solid var(--text-main);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-inner:hover {
+    background: transparent;
+    color: var(--text-main);
+  }
+
+  /* --- TAMPILAN BELAKANG (PESAN) --- */
   .card h2 {
     font-family: 'Playfair Display', serif;
     font-size: 2.2rem;
@@ -207,10 +243,20 @@
     <div class="card" id="card">
       <button class="close" id="closeBtn" type="button" aria-label="Tutup">&times;</button>
       
-      <!-- ISI PESAN LANGSUNG MUNCUL -->
-      <h2 id="cardTitle">Hai, Bila</h2>
-      <p class="msg" id="msgText"></p>
-      <p class="signature">— Dari aku</p>
+      <!-- TAMPILAN DEPAN (SEBELUM DIKLIK) -->
+      <div id="cardFront">
+        <div class="envelope-icon">&#9993;</div>
+        <h2 class="front-title">Ada Pesan</h2>
+        <p style="color: var(--text-sub); font-size: 0.85rem; letter-spacing: 1px;">Khusus untukmu</p>
+        <button class="btn-inner" id="revealBtn">Buka</button>
+      </div>
+
+      <!-- TAMPILAN BELAKANG (ISI PESAN) -->
+      <div id="cardBack" style="display: none;">
+        <h2 id="cardTitle">Hai, Bila</h2>
+        <p class="msg" id="msgText"></p>
+        <p class="signature">— Dari aku</p>
+      </div>
 
     </div>
   </div>
@@ -220,6 +266,10 @@
   const openBtn  = document.getElementById('openBtn');
   const closeBtn = document.getElementById('closeBtn');
   const msgEl    = document.getElementById('msgText');
+  
+  const cardFront = document.getElementById('cardFront');
+  const cardBack  = document.getElementById('cardBack');
+  const revealBtn = document.getElementById('revealBtn');
 
   // ==========================================
   // TEKS PESAN
@@ -255,28 +305,29 @@
     step();
   }
 
-  // Fungsi Buka Pop-up
   const openCard = () => {
     overlay.classList.add('open');
-    typeMessage(); // Langsung ketik pesan saat pop-up muncul
+    cardFront.style.display = 'block';
+    cardBack.style.display = 'none';
+    clearTimeout(typingTimer);
+    msgEl.innerHTML = '';
   };
 
-  // Fungsi Tutup Pop-up
   const closeCard = () => {
     overlay.classList.remove('open');
     clearTimeout(typingTimer);
-    // Hapus teks agar saat dibuka lagi bisa diketik ulang dari awal
-    setTimeout(() => { msgEl.innerHTML = ''; }, 400); 
   };
 
-  // Event Listener
   openBtn.addEventListener('click', openCard);
+
+  revealBtn.addEventListener('click', () => {
+    cardFront.style.display = 'none'; 
+    cardBack.style.display = 'block'; 
+    typeMessage();                    
+  });
+
   closeBtn.addEventListener('click', closeCard);
-  
-  // Klik area luar kartu untuk menutup
   overlay.addEventListener('click', e => { if (e.target === overlay) closeCard(); });
-  
-  // Tekan tombol Escape untuk menutup
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
 
 </script>
