@@ -14,6 +14,7 @@
 
   :root {
     --accent: #d4a373; 
+    --bg-dark: #05050A;
   }
 
   html, body { height: 100%; }
@@ -25,40 +26,63 @@
     place-items: center;
     overflow: hidden;
     position: relative;
-    background-color: #000;
+    background-color: var(--bg-dark);
   }
 
-  /* BACKGROUND HALAMAN */
+  /* =========================================
+     BACKGROUND TRANSISI (MATAHARI -> GALAKSI)
+     ========================================= */
   .bg-sunflower {
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
     background-size: cover; background-position: center;
-    z-index: -4; transition: opacity 1.5s ease;
+    z-index: -5; transition: opacity 1.5s ease;
     opacity: 1;
   }
   .overlay-sunflower {
     position: absolute; inset: 0;
     background: rgba(255, 255, 255, 0.3); 
     backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
-    z-index: -3; transition: opacity 1.5s ease;
+    z-index: -4; transition: opacity 1.5s ease;
     opacity: 1;
   }
+  
   .bg-galaxy {
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop'); 
     background-size: cover; background-position: center;
-    z-index: -4; transition: opacity 1.5s ease;
+    z-index: -5; transition: opacity 1.5s ease;
     opacity: 0;
   }
   .overlay-galaxy {
     position: absolute; inset: 0;
-    background: rgba(10, 10, 25, 0.4); 
-    backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    z-index: -3; transition: opacity 1.5s ease;
+    background: rgba(5, 5, 10, 0.5); 
+    backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+    z-index: -4; transition: opacity 1.5s ease;
     opacity: 0;
   }
 
-  /* HALAMAN UTAMA */
+  /* Partikel Bintang Jatuh */
+  .stars {
+    position: absolute; inset: 0; z-index: -3;
+    pointer-events: none; opacity: 0; transition: opacity 2s ease;
+  }
+  .star {
+    position: absolute; width: 2px; height: 2px;
+    background: #fff; border-radius: 50%;
+    box-shadow: 0 0 5px #fff;
+    animation: shootingStar linear infinite;
+  }
+  @keyframes shootingStar {
+    0% { transform: translateY(-100px) translateX(0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100vh) translateX(-200px); opacity: 0; }
+  }
+
+  /* =========================================
+     HALAMAN UTAMA
+     ========================================= */
   .stage {
     text-align: center; padding: 24px; z-index: 1;
     animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -67,6 +91,7 @@
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
   .title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(3.5rem, 12vw, 5.5rem);
@@ -74,11 +99,13 @@
     color: #1a1a1a; margin-bottom: 15px;
     text-shadow: 0 4px 20px rgba(255,255,255,1);
   }
+
   .subtitle {
     font-weight: 500; letter-spacing: 5px; text-transform: uppercase;
     font-size: 0.75rem; color: #222; text-shadow: 0 2px 10px rgba(255,255,255,1);
     margin-bottom: 50px;
   }
+
   .btn {
     position: relative; overflow: hidden; background: #111; color: #fff;
     font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500;
@@ -88,7 +115,9 @@
   }
   .btn:hover { background: var(--accent); transform: translateY(-3px); }
 
-  /* POP-UP MODAL */
+  /* =========================================
+     POP-UP MODAL 
+     ========================================= */
   .overlay {
     position: fixed; inset: 0; z-index: 50;
     display: grid; place-items: center; padding: 20px;
@@ -97,60 +126,58 @@
   }
   .overlay.open { opacity: 1; visibility: visible; }
 
+  /* WADAH KARTU & PITA ASTRAL */
   .card-wrapper {
     position: relative;
-    width: min(440px, 100%);
+    width: min(420px, 100%);
     display: grid; place-items: center;
-    border-radius: 20px;
   }
 
-  /* KARTU GALAKSI */
+  /* PITA ASTRAL (GARIS CAHAYA) */
+  .astral-ribbons {
+    position: absolute;
+    width: 140%; height: 140%;
+    z-index: 5; pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.5s ease 0.5s;
+  }
+  .overlay.open .astral-ribbons { opacity: 1; }
+
+  .astral-ribbons path {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    /* Efek pendaran neon */
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+
+  /* =========================================
+     KARTU KACA GALAKSI
+     ========================================= */
   .card-content {
     position: relative;
     width: 100%;
     max-height: 80vh; overflow-y: auto;
-    padding: 60px 40px; text-align: center;
-    background: linear-gradient(rgba(10, 10, 20, 0.5), rgba(10, 10, 20, 0.8)), 
-                url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
-    border-radius: 20px; 
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-    transform: translateY(30px) scale(0.95); opacity: 0;
+    padding: 60px 35px; text-align: center;
+    
+    background: rgba(15, 15, 25, 0.4); /* Kaca gelap transparan */
+    backdrop-filter: blur(16px); 
+    -webkit-backdrop-filter: blur(16px);
+    
+    border-radius: 24px; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+    
+    transform: translateY(40px) scale(0.95); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
     z-index: 10; 
   }
   .overlay.open .card-content { transform: translateY(0) scale(1); opacity: 1; }
 
-  .inner-text {
-    position: relative;
-    z-index: 20;
-  }
-
-  /* =========================================
-     8 BENANG KUSUT (BORDER)
-     ========================================= */
-  .thread-svg {
-    position: absolute;
-    inset: -15px; /* Benang menempel pas di pinggir kartu */
-    width: calc(100% + 30px); height: calc(100% + 30px);
-    z-index: 15; pointer-events: none;
-    opacity: 0;
-    transition: opacity 1s ease 0.3s;
-    overflow: visible; /* Agar benang yang keluar sedikit tidak terpotong */
-  }
-  .overlay.open .thread-svg { opacity: 1; }
-
-  .thread-svg path {
-    fill: none;
-    stroke-width: 1.5; 
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 4px currentColor); 
-    vector-effect: non-scaling-stroke; 
-  }
-
-  /* TOMBOL CLOSE */
+  /* Tombol Close */
   .close {
-    position: absolute; top: 15px; right: 15px; z-index: 30;
+    position: absolute; top: 20px; right: 20px; z-index: 20;
     width: 32px; height: 32px; border: none; background: rgba(255,255,255,0.1);
     border-radius: 50%; color: #ccc; font-size: 1.2rem; line-height: 1;
     cursor: pointer; transition: 0.3s;
@@ -158,18 +185,20 @@
   }
   .close:hover { background: #fff; color: #111; transform: rotate(90deg); }
 
-  /* TEKS & ANIMASI KETIK */
+  /* =========================================
+     TEKS & ANIMASI
+     ========================================= */
   .card-content h2 {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
-    font-size: 2.2rem; color: var(--accent); margin-bottom: 25px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    font-size: 2.4rem; color: var(--accent); margin-bottom: 25px;
+    text-shadow: 0 2px 15px rgba(212, 163, 115, 0.4);
   }
 
   .card-content p.msg {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.35rem; line-height: 1.7; font-style: italic; font-weight: 400;
+    font-size: 1.4rem; line-height: 1.7; font-style: italic; font-weight: 400;
     color: #fff; 
-    text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.9);
     display: flex; flex-direction: column;
     min-height: 1em; letter-spacing: 0.5px;
   }
@@ -184,13 +213,14 @@
     display: inline-block; width: 2px; height: 1em;
     background: var(--accent); margin-left: 4px;
     vertical-align: -2px; animation: blink 1s steps(1) infinite;
+    box-shadow: 0 0 8px var(--accent);
   }
   @keyframes blink { 50% { opacity: 0; } }
 
   .signature {
-    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.4rem;
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.5rem;
     color: var(--accent); margin-top: 35px; opacity: 0;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+    text-shadow: 0 2px 10px rgba(0,0,0,0.8);
     animation: fadeUp 1s ease 4s forwards;
   }
   @keyframes fadeUp {
@@ -201,129 +231,73 @@
   @media (max-width: 480px) {
     .card-content { padding: 50px 25px; }
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
-    .card-content p.msg { font-size: 1.2rem; }
-    .thread-svg {
-      inset: -10px;
-      width: calc(100% + 20px); height: calc(100% + 20px);
-    }
+    .card-content p.msg { font-size: 1.25rem; }
   }
 </style>
 </head>
 <body>
 
+  <!-- Background -->
   <div class="bg-sunflower" id="bgSunflower"></div>
   <div class="overlay-sunflower" id="overlaySunflower"></div>
   <div class="bg-galaxy" id="bgGalaxy"></div>
   <div class="overlay-galaxy" id="overlayGalaxy"></div>
+  <div class="stars" id="starContainer"></div>
 
+  <!-- Halaman Utama -->
   <main class="stage">
     <h1 class="title">Untuk Bila</h1>
     <p class="subtitle">A Little Note For You</p>
     <button class="btn" id="openBtn" type="button">Buka Pesan</button>
   </main>
 
+  <!-- Pop-up Card -->
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-wrapper">
       
-      <!-- 8 BENANG KUSUT MELINGKAR PENUH -->
-      <svg class="thread-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <!-- PITA CAHAYA ASTRAL (MENGORBIT) -->
+      <svg class="astral-ribbons" viewBox="0 0 400 400">
         <defs>
-          <linearGradient id="c1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#ff758c"/></linearGradient>
-          <linearGradient id="c2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#0072ff"/></linearGradient>
-          <linearGradient id="c3" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#faedcd"/></linearGradient>
-          <linearGradient id="c4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#b388ff"/><stop offset="100%" stop-color="#8e24aa"/></linearGradient>
-          <linearGradient id="c5" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00b09b"/><stop offset="100%" stop-color="#96c93d"/></linearGradient>
-          <linearGradient id="c6" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ff9a9e"/><stop offset="100%" stop-color="#fecfef"/></linearGradient>
-          <linearGradient id="c7" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4facfe"/><stop offset="100%" stop-color="#00f2fe"/></linearGradient>
-          <linearGradient id="c8" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ff0844"/><stop offset="100%" stop-color="#ffb199"/></linearGradient>
+          <linearGradient id="gradPink" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#ff758c"/></linearGradient>
+          <linearGradient id="gradCyan" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00e5ff"/><stop offset="100%" stop-color="#0072ff"/></linearGradient>
+          <linearGradient id="gradGold" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#faedcd"/></linearGradient>
         </defs>
 
-        <!-- 
-          Jalur SVG (Path) ini dirancang untuk bergelombang KECIL dan KUSUT 
-          di setiap sisi (atas, kanan, bawah, kiri), lalu ditutup (Z) 
-        -->
-
-        <!-- 1. Pink -->
-        <path stroke="url(#c1)" color="#ff7eb3">
-          <animate attributeName="d" dur="2s" repeatCount="indefinite" values="
-            M 0,0 C 5,-5 10,5 15,-2 C 20,-8 25,5 30,-2 C 35,-8 40,5 45,-2 C 50,-8 55,5 60,-2 C 65,-8 70,5 75,-2 C 80,-8 85,5 90,-2 C 95,-8 100,0 100,0 C 105,5 95,10 102,15 C 108,20 95,25 102,30 C 108,35 95,40 102,45 C 108,50 95,55 102,60 C 108,65 95,70 102,75 C 108,80 95,85 102,90 C 108,95 100,100 100,100 C 95,105 90,95 85,102 C 80,108 75,95 70,102 C 65,108 60,95 55,102 C 50,108 45,95 40,102 C 35,108 30,95 25,102 C 20,108 15,95 10,102 C 5,108 0,100 0,100 C -5,95 5,90 -2,85 C -8,80 5,75 -2,70 C -8,65 5,60 -2,55 C -8,50 5,45 -2,40 C -8,35 5,30 -2,25 C -8,20 5,15 -2,10 C -8,5 0,0 0,0 Z;
-            M -2,2 C 8,-2 8,8 18,0 C 25,-6 35,2 42,-5 C 50,-2 55,8 65,-2 C 75,-8 85,2 92,0 C 98,-2 102,2 102,-2 C 98,8 105,12 98,18 C 105,28 95,32 102,40 C 108,48 92,52 102,60 C 105,68 98,72 102,80 C 108,88 98,92 100,102 C 92,98 88,108 80,100 C 72,108 65,98 58,105 C 48,108 45,98 35,105 C 28,108 22,98 15,105 C 8,108 2,98 -2,102 C 2,92 -5,88 2,80 C 8,72 -5,68 0,60 C -5,52 8,48 -2,40 C -8,32 5,28 -2,20 C 5,12 -5,8 0,2 Z;
-            M 0,0 C 5,-5 10,5 15,-2 C 20,-8 25,5 30,-2 C 35,-8 40,5 45,-2 C 50,-8 55,5 60,-2 C 65,-8 70,5 75,-2 C 80,-8 85,5 90,-2 C 95,-8 100,0 100,0 C 105,5 95,10 102,15 C 108,20 95,25 102,30 C 108,35 95,40 102,45 C 108,50 95,55 102,60 C 108,65 95,70 102,75 C 108,80 95,85 102,90 C 108,95 100,100 100,100 C 95,105 90,95 85,102 C 80,108 75,95 70,102 C 65,108 60,95 55,102 C 50,108 45,95 40,102 C 35,108 30,95 25,102 C 20,108 15,95 10,102 C 5,108 0,100 0,100 C -5,95 5,90 -2,85 C -8,80 5,75 -2,70 C -8,65 5,60 -2,55 C -8,50 5,45 -2,40 C -8,35 5,30 -2,25 C -8,20 5,15 -2,10 C -8,5 0,0 0,0 Z
+        <!-- Pita 1: Melingkar Halus -->
+        <path stroke="url(#gradPink)" color="#ff7eb3">
+          <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
+            M 50,100 C 150,-50 250,-50 350,100 C 450,250 300,450 200,450 C 100,450 -50,250 50,100 Z;
+            M 100,50 C 50,150 -50,250 100,350 C 250,450 450,300 450,200 C 450,100 250,-50 100,50 Z;
+            M 50,100 C 150,-50 250,-50 350,100 C 450,250 300,450 200,450 C 100,450 -50,250 50,100 Z
           " />
         </path>
 
-        <!-- 2. Cyan -->
-        <path stroke="url(#c2)" color="#00e5ff">
-          <animate attributeName="d" dur="2.5s" repeatCount="indefinite" values="
-            M 0,-2 C 5,5 10,-5 15,2 C 20,8 25,-5 30,2 C 35,8 40,-5 45,2 C 50,8 55,-5 60,2 C 65,8 70,-5 75,2 C 80,8 85,-5 90,2 C 95,8 100,-2 100,-2 C 105,8 95,12 102,18 C 108,22 95,28 102,32 C 108,38 95,42 102,48 C 108,52 95,58 102,62 C 108,68 95,72 102,78 C 108,82 95,88 102,92 C 108,98 100,102 100,102 C 95,95 90,105 85,98 C 80,92 75,105 70,98 C 65,92 60,105 55,98 C 50,92 45,105 40,98 C 35,92 30,105 25,98 C 20,92 15,105 10,98 C 5,92 0,102 0,102 C -5,92 5,88 -2,82 C -8,78 5,72 -2,68 C -8,62 5,58 -2,52 C -8,48 5,42 -2,38 C -8,32 5,28 -2,22 C -8,18 5,12 -2,8 C -8,2 0,-2 0,-2 Z;
-            M 2,0 C -5,-2 5,10 -2,15 C -8,20 5,25 -2,30 C -8,35 5,40 -2,45 C -8,50 5,55 -2,60 C -8,65 5,70 -2,75 C -8,80 5,85 -2,90 C -8,95 2,102 2,102 C 8,98 12,108 18,102 C 22,98 28,108 32,102 C 38,98 42,108 48,102 C 52,98 58,108 62,102 C 68,98 72,108 78,102 C 82,98 88,108 92,102 C 98,98 102,108 102,102 C 95,95 105,90 98,85 C 92,80 105,75 98,70 C 92,65 105,60 98,55 C 92,50 105,45 98,40 C 92,35 105,30 98,25 C 92,20 105,15 98,10 C 92,5 102,0 102,0 C 92,-5 88,5 82,-2 C 78,-8 72,5 68,-2 C 62,-8 58,5 52,-2 C 48,-8 42,5 38,-2 C 32,-8 28,5 22,-2 C 18,-8 12,5 8,-2 C 2,-8 0,0 2,0 Z;
-            M 0,-2 C 5,5 10,-5 15,2 C 20,8 25,-5 30,2 C 35,8 40,-5 45,2 C 50,8 55,-5 60,2 C 65,8 70,-5 75,2 C 80,8 85,-5 90,2 C 95,8 100,-2 100,-2 C 105,8 95,12 102,18 C 108,22 95,28 102,32 C 108,38 95,42 102,48 C 108,52 95,58 102,62 C 108,68 95,72 102,78 C 108,82 95,88 102,92 C 108,98 100,102 100,102 C 95,95 90,105 85,98 C 80,92 75,105 70,98 C 65,92 60,105 55,98 C 50,92 45,105 40,98 C 35,92 30,105 25,98 C 20,92 15,105 10,98 C 5,92 0,102 0,102 C -5,92 5,88 -2,82 C -8,78 5,72 -2,68 C -8,62 5,58 -2,52 C -8,48 5,42 -2,38 C -8,32 5,28 -2,22 C -8,18 5,12 -2,8 C -8,2 0,-2 0,-2 Z
+        <!-- Pita 2: Melingkar Halus (Berlawanan Arah) -->
+        <path stroke="url(#gradCyan)" color="#00e5ff">
+          <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
+            M 350,300 C 250,450 150,450 50,300 C -50,150 100,-50 200,-50 C 300,-50 450,150 350,300 Z;
+            M 300,350 C 450,250 450,150 300,50 C 150,-50 -50,100 -50,200 C -50,300 150,450 300,350 Z;
+            M 350,300 C 250,450 150,450 50,300 C -50,150 100,-50 200,-50 C 300,-50 450,150 350,300 Z
           " />
         </path>
 
-        <!-- 3. Gold -->
-        <path stroke="url(#c3)" color="#d4a373">
-          <animate attributeName="d" dur="3s" repeatCount="indefinite" values="
-            M 0,0 C 10,-10 10,10 20,0 C 30,-10 30,10 40,0 C 50,-10 50,10 60,0 C 70,-10 70,10 80,0 C 90,-10 90,10 100,0 C 100,10 90,10 100,20 C 110,30 90,30 100,40 C 110,50 90,50 100,60 C 110,70 90,70 100,80 C 110,90 90,90 100,100 C 90,100 90,90 80,100 C 70,110 70,90 60,100 C 50,110 50,90 40,100 C 30,110 30,90 20,100 C 10,110 10,90 0,100 C 0,90 10,90 0,80 C -10,70 10,70 0,60 C -10,50 10,50 0,40 C -10,30 10,30 0,20 C -10,10 10,10 0,0 Z;
-            M 5,5 C -5,15 15,15 5,25 C -5,35 15,35 5,45 C -5,55 15,55 5,65 C -5,75 15,75 5,85 C -5,95 15,95 5,105 C 15,105 15,95 25,105 C 35,115 35,95 45,105 C 55,115 55,95 65,105 C 75,115 75,95 85,105 C 95,115 95,95 105,105 C 105,95 95,95 105,85 C 115,75 95,75 105,65 C 115,55 95,55 105,45 C 115,35 95,35 105,25 C 115,15 95,15 105,5 C 95,5 95,15 85,5 C 75,-5 75,15 65,5 C 55,-5 55,15 45,5 C 35,-5 35,15 25,5 C 15,-5 15,15 5,5 Z;
-            M 0,0 C 10,-10 10,10 20,0 C 30,-10 30,10 40,0 C 50,-10 50,10 60,0 C 70,-10 70,10 80,0 C 90,-10 90,10 100,0 C 100,10 90,10 100,20 C 110,30 90,30 100,40 C 110,50 90,50 100,60 C 110,70 90,70 100,80 C 110,90 90,90 100,100 C 90,100 90,90 80,100 C 70,110 70,90 60,100 C 50,110 50,90 40,100 C 30,110 30,90 20,100 C 10,110 10,90 0,100 C 0,90 10,90 0,80 C -10,70 10,70 0,60 C -10,50 10,50 0,40 C -10,30 10,30 0,20 C -10,10 10,10 0,0 Z
-          " />
-        </path>
-
-        <!-- 4. Purple -->
-        <path stroke="url(#c4)" color="#b388ff">
-          <animate attributeName="d" dur="2.2s" repeatCount="indefinite" values="
-            M -2,0 C 8,8 12,-8 22,2 C 32,12 38,-8 48,2 C 58,12 62,-8 72,2 C 82,12 88,-8 98,2 C 102,8 92,12 102,22 C 108,32 88,38 102,48 C 108,58 88,62 102,72 C 108,82 88,88 102,98 C 92,102 88,92 78,102 C 68,108 62,88 52,102 C 42,108 38,88 28,102 C 18,108 12,88 2,102 C -2,92 8,88 -2,78 C -8,68 12,62 -2,52 C -8,42 12,38 -2,28 C -8,18 12,12 -2,2 C 2,-2 8,8 -2,0 Z;
-            M 0,2 C -8,10 8,18 0,28 C -8,38 8,42 0,52 C -8,62 8,68 0,78 C -8,88 8,92 0,102 C 8,108 18,88 28,102 C 38,108 42,88 52,102 C 62,108 68,88 78,102 C 88,108 92,88 102,102 C 102,88 92,78 102,68 C 108,58 88,52 102,42 C 108,32 88,28 102,18 C 108,8 88,2 102,-8 C 88,-2 78,8 68,-2 C 58,-8 52,8 42,-2 C 32,-8 28,8 18,-2 C 8,-8 2,8 -2,2 Z;
-            M -2,0 C 8,8 12,-8 22,2 C 32,12 38,-8 48,2 C 58,12 62,-8 72,2 C 82,12 88,-8 98,2 C 102,8 92,12 102,22 C 108,32 88,38 102,48 C 108,58 88,62 102,72 C 108,82 88,88 102,98 C 92,102 88,92 78,102 C 68,108 62,88 52,102 C 42,108 38,88 28,102 C 18,108 12,88 2,102 C -2,92 8,88 -2,78 C -8,68 12,62 -2,52 C -8,42 12,38 -2,28 C -8,18 12,12 -2,2 C 2,-2 8,8 -2,0 Z
-          " />
-        </path>
-
-        <!-- 5. Green -->
-        <path stroke="url(#c5)" color="#00b09b">
-          <animate attributeName="d" dur="2.8s" repeatCount="indefinite" values="
-            M 2,2 C 12,-2 12,8 22,-2 C 32,-8 32,2 42,-8 C 52,-2 52,8 62,-2 C 72,-8 72,2 82,-8 C 92,-2 92,8 102,-2 C 98,8 102,12 98,22 C 108,32 98,32 108,42 C 98,52 108,52 98,62 C 108,72 98,72 108,82 C 98,92 108,92 98,102 C 92,92 82,102 72,92 C 62,102 52,92 42,102 C 32,92 22,102 12,92 C 2,102 -2,92 2,82 C 8,72 -2,62 2,52 C 8,42 -2,32 2,22 C 8,12 -2,2 2,2 Z;
-            M -2,-2 C -8,8 2,12 -8,22 C -2,32 8,32 -2,42 C -8,52 2,52 -8,62 C -2,72 8,72 -2,82 C -8,92 2,92 -8,102 C 2,98 12,108 22,98 C 32,108 32,98 42,108 C 52,98 52,108 62,98 C 72,108 72,98 82,108 C 92,98 92,108 102,98 C 92,88 102,82 92,72 C 102,62 92,52 102,42 C 92,32 102,22 92,12 C 102,2 92,-2 82,8 C 72,-2 62,8 52,-2 C 42,8 32,-2 22,8 C 12,-2 2,8 -2,-2 Z;
-            M 2,2 C 12,-2 12,8 22,-2 C 32,-8 32,2 42,-8 C 52,-2 52,8 62,-2 C 72,-8 72,2 82,-8 C 92,-2 92,8 102,-2 C 98,8 102,12 98,22 C 108,32 98,32 108,42 C 98,52 108,52 98,62 C 108,72 98,72 108,82 C 98,92 108,92 98,102 C 92,92 82,102 72,92 C 62,102 52,92 42,102 C 32,92 22,102 12,92 C 2,102 -2,92 2,82 C 8,72 -2,62 2,52 C 8,42 -2,32 2,22 C 8,12 -2,2 2,2 Z
-          " />
-        </path>
-
-        <!-- 6. Orange -->
-        <path stroke="url(#c6)" color="#ff9a9e">
-          <animate attributeName="d" dur="2.4s" repeatCount="indefinite" values="
-            M 0,5 C 5,-5 10,10 15,5 C 20,-5 25,10 30,5 C 35,-5 40,10 45,5 C 50,-5 55,10 60,5 C 65,-5 70,10 75,5 C 80,-5 85,10 90,5 C 95,-5 100,5 100,5 C 95,15 105,10 100,20 C 90,25 105,30 100,40 C 90,45 105,50 100,60 C 90,65 105,70 100,80 C 90,85 105,90 100,100 C 90,95 95,105 85,100 C 75,90 70,105 60,100 C 50,90 45,105 35,100 C 25,90 20,105 10,100 C 0,90 -5,105 0,95 C 5,85 -5,80 0,70 C 10,65 -5,60 0,50 C 10,45 -5,40 0,30 C 10,25 -5,20 0,10 C 10,15 5,5 0,5 Z;
-            M 5,0 C -5,10 10,15 5,25 C -5,35 10,35 5,45 C -5,55 10,55 5,65 C -5,75 10,75 5,85 C -5,95 10,95 5,105 C 15,105 10,95 20,100 C 30,110 30,90 40,100 C 50,110 55,90 65,100 C 75,110 75,90 85,100 C 95,110 95,90 105,95 C 95,85 105,80 95,70 C 105,60 90,55 95,45 C 105,35 90,30 95,20 C 105,10 90,5 95,-5 C 85,5 75,-5 65,5 C 55,-5 45,5 35,-5 C 25,5 15,-5 5,0 Z;
-            M 0,5 C 5,-5 10,10 15,5 C 20,-5 25,10 30,5 C 35,-5 40,10 45,5 C 50,-5 55,10 60,5 C 65,-5 70,10 75,5 C 80,-5 85,10 90,5 C 95,-5 100,5 100,5 C 95,15 105,10 100,20 C 90,25 105,30 100,40 C 90,45 105,50 100,60 C 90,65 105,70 100,80 C 90,85 105,90 100,100 C 90,95 95,105 85,100 C 75,90 70,105 60,100 C 50,90 45,105 35,100 C 25,90 20,105 10,100 C 0,90 -5,105 0,95 C 5,85 -5,80 0,70 C 10,65 -5,60 0,50 C 10,45 -5,40 0,30 C 10,25 -5,20 0,10 C 10,15 5,5 0,5 Z
-          " />
-        </path>
-
-        <!-- 7. Blue -->
-        <path stroke="url(#c7)" color="#4facfe">
-          <animate attributeName="d" dur="3.5s" repeatCount="indefinite" values="
-            M -5,0 C 5,-10 5,10 15,-5 C 25,-15 25,5 35,-5 C 45,-15 45,5 55,-5 C 65,-15 65,5 75,-5 C 85,-15 85,5 95,-5 C 105,-10 105,5 105,10 C 95,20 115,20 105,30 C 95,40 115,40 105,50 C 95,60 115,60 105,70 C 95,80 115,80 105,90 C 95,100 105,100 105,105 C 95,105 85,115 75,105 C 65,95 55,115 45,105 C 35,95 25,115 15,105 C 5,95 -5,115 -5,105 C 5,95 -15,85 -5,75 C 5,65 -15,55 -5,45 C 5,35 -15,25 -5,15 C 5,5 -15,-5 -5,0 Z;
-            M 0,5 C -10,15 10,25 0,35 C -10,45 10,55 0,65 C -10,75 10,85 0,95 C -10,105 10,105 5,110 C 15,100 25,110 35,100 C 45,90 55,110 65,100 C 75,90 85,110 95,100 C 105,90 105,110 110,100 C 100,90 110,80 100,70 C 90,60 110,50 100,40 C 90,30 110,20 100,10 C 90,0 110,-10 100,-5 C 90,5 80,-5 70,5 C 60,-5 50,5 40,-5 C 30,5 20,-5 10,5 C 0,-5 -10,5 -5,0 Z;
-            M -5,0 C 5,-10 5,10 15,-5 C 25,-15 25,5 35,-5 C 45,-15 45,5 55,-5 C 65,-15 65,5 75,-5 C 85,-15 85,5 95,-5 C 105,-10 105,5 105,10 C 95,20 115,20 105,30 C 95,40 115,40 105,50 C 95,60 115,60 105,70 C 95,80 115,80 105,90 C 95,100 105,100 105,105 C 95,105 85,115 75,105 C 65,95 55,115 45,105 C 35,95 25,115 15,105 C 5,95 -5,115 -5,105 C 5,95 -15,85 -5,75 C 5,65 -15,55 -5,45 C 5,35 -15,25 -5,15 C 5,5 -15,-5 -5,0 Z
-          " />
-        </path>
-
-        <!-- 8. Red -->
-        <path stroke="url(#c8)" color="#ff0844">
-          <animate attributeName="d" dur="2.6s" repeatCount="indefinite" values="
-            M 0,0 C 5,5 10,-5 15,5 C 20,10 25,-5 30,5 C 35,10 40,-5 45,5 C 50,10 55,-5 60,5 C 65,10 70,-5 75,5 C 80,10 85,-5 90,5 C 95,10 100,0 100,0 C 100,5 95,15 100,20 C 105,25 95,30 100,40 C 105,45 95,50 100,60 C 105,65 95,70 100,80 C 105,85 95,90 100,100 C 95,95 90,105 85,95 C 80,90 75,105 70,95 C 65,90 60,105 55,95 C 50,90 45,105 40,95 C 35,90 30,105 25,95 C 20,90 15,105 10,95 C 5,90 0,100 0,100 C 0,95 5,85 0,80 C -5,75 5,70 0,60 C -5,55 5,50 0,40 C -5,35 5,30 0,20 C -5,15 5,10 0,0 Z;
-            M 0,10 C 10,0 10,20 20,10 C 30,0 30,20 40,10 C 50,0 50,20 60,10 C 70,0 70,20 80,10 C 90,0 90,20 100,10 C 100,20 90,30 100,40 C 110,50 90,60 100,70 C 110,80 90,90 100,100 C 90,110 90,90 80,100 C 70,110 70,90 60,100 C 50,110 50,90 40,100 C 30,110 30,90 20,100 C 10,110 10,90 0,100 C 0,90 10,80 0,70 C -10,60 10,50 0,40 C -10,30 10,20 0,10 Z;
-            M 0,0 C 5,5 10,-5 15,5 C 20,10 25,-5 30,5 C 35,10 40,-5 45,5 C 50,10 55,-5 60,5 C 65,10 70,-5 75,5 C 80,10 85,-5 90,5 C 95,10 100,0 100,0 C 100,5 95,15 100,20 C 105,25 95,30 100,40 C 105,45 95,50 100,60 C 105,65 95,70 100,80 C 105,85 95,90 100,100 C 95,95 90,105 85,95 C 80,90 75,105 70,95 C 65,90 60,105 55,95 C 50,90 45,105 40,95 C 35,90 30,105 25,95 C 20,90 15,105 10,95 C 5,90 0,100 0,100 C 0,95 5,85 0,80 C -5,75 5,70 0,60 C -5,55 5,50 0,40 C -5,35 5,30 0,20 C -5,15 5,10 0,0 Z
+        <!-- Pita 3: Menyilang Tengah -->
+        <path stroke="url(#gradGold)" color="#d4a373">
+          <animate attributeName="d" dur="12s" repeatCount="indefinite" values="
+            M 0,200 C 100,100 300,300 400,200 C 300,100 100,300 0,200 Z;
+            M 200,0 C 100,100 300,300 200,400 C 100,300 300,100 200,0 Z;
+            M 0,200 C 100,100 300,300 400,200 C 300,100 100,300 0,200 Z
           " />
         </path>
       </svg>
 
+      <!-- Konten Pesan -->
       <div class="card-content">
         <button class="close" id="closeBtn" type="button">&times;</button>
         
-        <div class="inner-text">
-          <h2>Hai, Bila</h2>
-          <p class="msg" id="msgContainer"></p>
-          <p class="signature">— Dari aku, Fitra</p>
-        </div>
+        <h2>Hai, Bila</h2>
+        <p class="msg" id="msgContainer"></p>
+        <p class="signature">— Dari aku, Fitra</p>
       </div>
       
     </div>
@@ -339,11 +313,13 @@
   const overlaySunflower = document.getElementById('overlaySunflower');
   const bgGalaxy = document.getElementById('bgGalaxy');
   const overlayGalaxy = document.getElementById('overlayGalaxy');
+  const stars = document.getElementById('starContainer');
 
   const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
 
   let typingTimer = null;
 
+  // Efek Ngetik
   function typeMessage() {
     clearTimeout(typingTimer);
     msgContainer.innerHTML = '';
@@ -394,24 +370,48 @@
     typeLine();
   }
 
+  // Buka Modal & Transisi Background
   const openCard = () => {
     overlay.classList.add('open');
+    
+    // Transisi Background
     bgSunflower.style.opacity = '0';
     overlaySunflower.style.opacity = '0';
     bgGalaxy.style.opacity = '1';
     overlayGalaxy.style.opacity = '1';
+    stars.style.opacity = '1'; // Munculkan bintang
+
     setTimeout(typeMessage, 600); 
   };
 
+  // Tutup Modal
   const closeCard = () => {
     overlay.classList.remove('open');
+    
+    // Kembalikan Background
     bgSunflower.style.opacity = '1';
     overlaySunflower.style.opacity = '1';
     bgGalaxy.style.opacity = '0';
     overlayGalaxy.style.opacity = '0';
+    stars.style.opacity = '0';
+
     clearTimeout(typingTimer);
     setTimeout(() => { msgContainer.innerHTML = ''; }, 500); 
   };
+
+  // Generate Bintang Jatuh
+  function createStars() {
+    for(let i=0; i<30; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.top = Math.random() * -100 + 'px';
+      star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      star.style.animationDelay = (Math.random() * 5) + 's';
+      stars.appendChild(star);
+    }
+  }
+  createStars();
 
   openBtn.addEventListener('click', openCard);
   closeBtn.addEventListener('click', closeCard);
