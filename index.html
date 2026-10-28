@@ -7,24 +7,23 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Font Modern & Elegan -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Font Modern: Syne (Judul) & Outfit (Isi) -->
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Outfit:wght@300;400;500&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --text-main: #1f1f1f; 
-    --text-muted: #6b6b6b;
-    --accent: #d4a373; 
+    --text-main: #1a1a1a; 
+    --text-muted: #555;
+    --accent: #d4a373; /* Warna emas/copper */
     --bg-card: #ffffff;
   }
 
   html, body { height: 100%; }
 
   body {
-    /* Ditambahkan font emoji agar selalu terbaca jelas */
-    font-family: 'Plus Jakarta Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+    font-family: 'Outfit', 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
     color: var(--text-main);
     min-height: 100dvh;
     display: grid;
@@ -34,104 +33,154 @@
     background-color: #f4f1ea;
   }
 
-  /* Background Zoom Halus */
+  /* 1. BACKGROUND BUNGA MATAHARI */
   .bg-image {
     position: absolute;
     inset: 0;
     background-image: url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
-    z-index: -2;
-    animation: bgZoom 25s ease-in-out infinite alternate;
+    z-index: -3;
+    animation: bgZoom 30s ease-in-out infinite alternate;
   }
   @keyframes bgZoom {
     0% { transform: scale(1); }
-    100% { transform: scale(1.1); }
+    100% { transform: scale(1.15); }
   }
 
   .bg-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    z-index: -1;
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: -2;
   }
 
-  /* Halaman Utama */
+  /* 2. EFEK PARTIKEL MELAYANG */
+  .particles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    background: var(--accent);
+    border-radius: 50%;
+    opacity: 0.4;
+    animation: floatUp linear infinite;
+  }
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0); opacity: 0; }
+    50% { opacity: 0.6; }
+    100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+  }
+
+  /* 3. HALAMAN UTAMA */
   .stage {
     text-align: center;
     padding: 24px;
     z-index: 1;
-    animation: fadeIn 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
+  /* EFEK FONT KEREN (SHIMMER TEXT) */
   .title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(3.5rem, 12vw, 5rem);
-    font-weight: 600;
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3.5rem, 12vw, 5.5rem);
+    font-weight: 800;
     line-height: 1.1;
-    color: #111;
-    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    
+    background: linear-gradient(90deg, #111 0%, #d4a373 50%, #111 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    animation: shimmer 4s linear infinite;
+    margin-bottom: 15px;
+  }
+  @keyframes shimmer {
+    to { background-position: 200% center; }
   }
 
   .subtitle {
     font-weight: 400;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
-    margin-bottom: 45px;
+    margin-bottom: 50px;
   }
 
+  /* EFEK TOMBOL SWEEP */
   .btn {
+    position: relative;
+    overflow: hidden;
     background: #111;
     color: #fff;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.85rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
     font-weight: 500;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    padding: 18px 45px;
+    padding: 18px 50px;
     border: none;
-    border-radius: 4px; 
+    border-radius: 50px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
   }
+  
+  .btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: all 0.5s ease;
+  }
+  
   .btn:hover {
     background: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(212, 163, 115, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(212, 163, 115, 0.4);
+  }
+  
+  .btn:hover::before {
+    left: 100%;
   }
 
-  /* Pop-up Modal */
+  /* 4. POP-UP MODAL */
   .overlay {
     position: fixed; inset: 0; z-index: 50;
     display: grid; place-items: center; padding: 20px;
-    background: rgba(20, 20, 20, 0.4); 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: rgba(15, 15, 15, 0.5); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     opacity: 0; visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
   }
   .overlay.open { opacity: 1; visibility: visible; }
 
-  /* Kartu */
   .card {
     position: relative;
     width: min(480px, 100%);
     max-height: 88vh; overflow-y: auto;
     padding: 60px 40px;
     text-align: center;
-    background: var(--bg-card);
-    border-radius: 8px; 
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
-    transform: translateY(30px) scale(0.95);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(212, 163, 115, 0.3);
+    border-radius: 12px; 
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.2);
+    transform: translateY(40px) scale(0.95);
     opacity: 0;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
   }
@@ -140,18 +189,10 @@
     opacity: 1;
   }
 
-  .card-accent {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    border-radius: 8px 8px 0 0;
-  }
-
   .close {
     position: absolute; top: 20px; right: 20px;
     width: 36px; height: 36px;
-    border: none; background: #f5f5f5;
+    border: none; background: #f0f0f0;
     border-radius: 50%;
     color: #888;
     font-size: 1.2rem; line-height: 1;
@@ -160,37 +201,40 @@
     display: flex; align-items: center; justify-content: center;
   }
   .close:hover {
-    background: #e0e0e0; color: #111;
+    background: #111; color: #fff; transform: rotate(90deg);
   }
 
   .card h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
     color: var(--text-main);
-    margin-bottom: 20px;
+    margin-bottom: 25px;
   }
 
   .card p.msg {
-    font-size: 1.05rem;
-    line-height: 1.9;
-    font-weight: 400;
-    color: #4a4a4a;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    font-weight: 300;
+    color: #333;
     white-space: pre-wrap;
     min-height: 1em;
   }
 
+  /* Kursor Ngetik Glowing */
   .type-cursor {
-    display: inline-block; width: 2px; height: 1.1em;
+    display: inline-block; width: 3px; height: 1.1em;
     background: var(--accent); margin-left: 4px;
     vertical-align: -2px;
     animation: blink 1s steps(1) infinite;
+    box-shadow: 0 0 8px var(--accent); 
   }
   @keyframes blink { 50% { opacity: 0; } }
 
   .signature {
     font-family: 'Playfair Display', serif;
     font-style: italic;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: var(--accent);
     margin-top: 35px;
     opacity: 0;
@@ -203,6 +247,7 @@
 
   @media (max-width: 480px) {
     .card { padding: 50px 25px; }
+    .title { font-size: clamp(2.5rem, 14vw, 4rem); }
   }
 </style>
 </head>
@@ -210,6 +255,7 @@
 
   <div class="bg-image"></div>
   <div class="bg-overlay"></div>
+  <div class="particles" id="particles"></div>
 
   <main class="stage">
     <h1 class="title">Untuk Bila</h1>
@@ -219,12 +265,12 @@
 
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card">
-      <div class="card-accent"></div>
       <button class="close" id="closeBtn" type="button">&times;</button>
       
       <h2>Hai, Bila</h2>
       <p class="msg" id="msgText"></p>
-      <p class="signature">— Dari aku</p>
+      <!-- TANDA TANGAN -->
+      <p class="signature">— Dari aku, Fitra</p>
 
     </div>
   </div>
@@ -234,10 +280,11 @@
   const openBtn  = document.getElementById('openBtn');
   const closeBtn = document.getElementById('closeBtn');
   const msgEl    = document.getElementById('msgText');
+  const particlesContainer = document.getElementById('particles');
 
   // ==========================================
-  // TEKS PESAN
-  const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nDoaku selalu, semoga hal-hal baik selalu menyertai kita.';
+  // TEKS PESAN SUDAH DIPERBARUI
+  const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
   // ==========================================
 
   let typingTimer = null;
@@ -247,7 +294,6 @@
     msgEl.innerHTML = '';
     let i = 0;
 
-    // KUNCI PERBAIKAN: Menggunakan Array.from agar Emoji tidak terpotong
     const characters = Array.from(MESSAGE);
 
     const cursor = document.createElement('span');
@@ -287,10 +333,42 @@
 
   openBtn.addEventListener('click', openCard);
   closeBtn.addEventListener('click', closeCard);
-  
   overlay.addEventListener('click', e => { if (e.target === overlay) closeCard(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
 
+  // ==========================================
+  // SCRIPT EFEK PARTIKEL MELAYANG
+  // ==========================================
+  function createParticles() {
+    const particleCount = 25; 
+
+    for (let i = 0; i < particleCount; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      
+      const size = Math.random() * 4 + 2;
+      particle.style.width = `${size}px`;
+      particle.style.height = `${size}px`;
+      particle.style.left = `${Math.random() * 100}vw`;
+      
+      const duration = Math.random() * 15 + 10; 
+      const delay = Math.random() * 10;
+      
+      particle.style.animationDuration = `${duration}s`;
+      particle.style.animationDelay = `${delay}s`;
+      
+      if (Math.random() > 0.5) {
+        particle.style.background = '#ffffff';
+        particle.style.boxShadow = '0 0 10px #ffffff';
+      } else {
+        particle.style.boxShadow = '0 0 10px var(--accent)';
+      }
+
+      particlesContainer.appendChild(particle);
+    }
+  }
+
+  createParticles();
 </script>
 </body>
 </html>
