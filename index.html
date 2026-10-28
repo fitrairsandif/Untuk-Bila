@@ -7,8 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Font: JetBrains Mono (Programmer/Typewriter), Playfair (Judul), Outfit (Tombol) -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Cormorant+Garamond:ital,wght@1,400;1,600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -30,14 +29,12 @@
     background-color: var(--bg-dark);
   }
 
-  /* =========================================
-     1. BACKGROUND TRANSISI BERGERAK
-     ========================================= */
   .bg-sunflower {
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
     background-size: cover; background-position: center;
-    z-index: -6; transition: opacity 1.5s ease;
+    z-index: -6; 
+    transition: opacity 1.5s ease;
     opacity: 1;
     animation: kenBurns 25s ease-in-out infinite alternate;
   }
@@ -45,7 +42,8 @@
     position: absolute; inset: 0;
     background: rgba(255, 255, 255, 0.4); 
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    z-index: -5; transition: opacity 1.5s ease;
+    z-index: -5; 
+    transition: opacity 1.5s ease;
     opacity: 1;
   }
   
@@ -53,16 +51,24 @@
     position: absolute; inset: 0;
     background-image: url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=2000&auto=format&fit=crop'); 
     background-size: cover; background-position: center;
-    z-index: -6; transition: opacity 2s ease;
+    z-index: -6; 
+    transition: opacity 1.5s ease;
     opacity: 0;
     animation: galaxyDrift 40s linear infinite alternate;
   }
   .overlay-galaxy {
     position: absolute; inset: 0;
-    background: radial-gradient(circle at center, rgba(2, 2, 5, 0.2) 0%, rgba(2, 2, 5, 0.9) 100%); 
-    z-index: -5; transition: opacity 2s ease;
+    background: radial-gradient(circle at center, rgba(2, 2, 5, 0.3) 0%, rgba(2, 2, 5, 0.9) 100%); 
+    z-index: -5; 
+    transition: opacity 1.5s ease;
     opacity: 0;
   }
+
+  body.modal-open .bg-sunflower,
+  body.modal-open .overlay-sunflower { opacity: 0; }
+  
+  body.modal-open .bg-galaxy,
+  body.modal-open .overlay-galaxy { opacity: 1; }
 
   @keyframes kenBurns {
     0% { transform: scale(1) translate(0, 0); }
@@ -73,9 +79,6 @@
     100% { transform: scale(1.1) translate(2%, 2%); }
   }
 
-  /* =========================================
-     2. SATURNUS 3D SUPER HIDUP
-     ========================================= */
   .saturn-system {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -60%) scale(0.8);
@@ -205,9 +208,6 @@
     100% { transform: rotateX(60deg) rotateY(-20deg) rotateZ(-360deg); }
   }
 
-  /* =========================================
-     3. BINTANG LATAR HIDUP
-     ========================================= */
   .stars-bg {
     position: absolute; inset: 0; z-index: -3;
     pointer-events: none; opacity: 0; transition: opacity 2s ease;
@@ -235,9 +235,6 @@
     100% { transform: translateY(100vh) translateX(-200px); opacity: 0; }
   }
 
-  /* =========================================
-     4. HALAMAN UTAMA HIDUP
-     ========================================= */
   .stage {
     text-align: center; padding: 24px; z-index: 1;
     animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
@@ -283,9 +280,6 @@
     100% { box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 20px rgba(212,163,115,0.6); transform: translateY(-5px); }
   }
 
-  /* =========================================
-     5. KARTU KACA & EFEK MESIN KETIK
-     ========================================= */
   .overlay {
     position: fixed; inset: 0; z-index: 50;
     display: grid; place-items: center; padding: 20px;
@@ -300,13 +294,14 @@
     max-height: 85vh; overflow-y: auto;
     padding: 50px 30px; text-align: center;
     
-    background: rgba(10, 10, 15, 0.7); 
-    backdrop-filter: blur(20px); 
-    -webkit-backdrop-filter: blur(20px);
+    background: linear-gradient(rgba(10, 10, 20, 0.6), rgba(5, 5, 10, 0.9)), 
+                url('https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px);
     
     border-radius: 24px; 
-    border: 1px solid rgba(212, 163, 115, 0.4);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(212, 163, 115, 0.1);
+    border: 1px solid rgba(212, 163, 115, 0.5);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.6);
     
     transform: translateY(30px) scale(0.95); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
@@ -347,7 +342,6 @@
   }
   .close:hover { background: var(--accent); color: #111; transform: rotate(90deg); }
 
-  /* TIPOGRAFI PESAN MESIN KETIK / PROGRAMER */
   .card-content h2 {
     font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; 
     font-size: 2.4rem; color: var(--accent); margin-bottom: 25px;
@@ -355,7 +349,6 @@
   }
 
   .card-content p.msg {
-    /* Font Monospace Kaku (Programmer) */
     font-family: 'JetBrains Mono', monospace;
     font-size: 1.05rem; 
     line-height: 1.8; 
@@ -365,7 +358,7 @@
     display: flex; flex-direction: column;
     min-height: 1em; 
     letter-spacing: -0.5px;
-    text-align: left; /* Rata kiri agar seperti ngetik di terminal */
+    text-align: left; 
   }
 
   .msg-line {
@@ -374,7 +367,6 @@
   }
   .msg-line.visible { opacity: 1; transform: translateY(0); }
 
-  /* Kursor Balok Tebal Mesin Ketik */
   .type-cursor {
     display: inline-block; 
     width: 9px; 
@@ -399,27 +391,68 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
+  .music-control {
+    position: fixed; bottom: 30px; left: 30px; z-index: 100;
+    width: 45px; height: 45px;
+    background: rgba(10, 10, 15, 0.6);
+    border: 1px solid rgba(212, 163, 115, 0.5);
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    opacity: 0; pointer-events: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  }
+  body.modal-open .music-control {
+    opacity: 1; pointer-events: auto;
+  }
+  .music-control:hover {
+    transform: scale(1.1);
+    border-color: var(--accent);
+  }
+  .music-control svg {
+    width: 20px; height: 20px;
+    fill: var(--accent);
+  }
+  .music-control.playing {
+    animation: pulseMusic 2s infinite alternate;
+  }
+  @keyframes pulseMusic {
+    0% { box-shadow: 0 0 0 0 rgba(212, 163, 115, 0.4); }
+    100% { box-shadow: 0 0 0 10px rgba(212, 163, 115, 0); }
+  }
+
   @media (max-width: 480px) {
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
     .card-content p.msg { font-size: 0.95rem; }
     .saturn-system { transform: translate(-50%, -60%) scale(0.55); }
     body.modal-open .saturn-system { transform: translate(-50%, -60%) scale(0.7); }
     .card-content { padding: 40px 20px; }
+    .music-control { bottom: 20px; left: 20px; width: 40px; height: 40px; }
   }
 </style>
 </head>
 <body>
 
-  <!-- Background Layer -->
+  <!-- LAGU: Lobo - Rock and Roll Days (Direct Link) -->
+  <audio id="bgMusic" loop>
+    <source src="https://archive.org/download/lobo_20250503/Lobo.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Tombol Kontrol Musik -->
+  <div class="music-control playing" id="musicBtn">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+    </svg>
+  </div>
+
   <div class="bg-sunflower"></div>
   <div class="overlay-sunflower"></div>
   <div class="bg-galaxy"></div>
   <div class="overlay-galaxy"></div>
   
-  <!-- Bintang Latar -->
   <div class="stars-bg" id="starContainer"></div>
 
-  <!-- SATURNUS 3D -->
   <div class="saturn-system">
     <div class="planet-wrap">
       <div class="planet-atmosphere"></div>
@@ -434,14 +467,12 @@
     </div>
   </div>
 
-  <!-- Halaman Utama -->
   <main class="stage" id="stage">
     <h1 class="title">Untuk Bila</h1>
     <p class="subtitle">A Little Note For You</p>
     <button class="btn" id="openBtn" type="button">Buka Pesan</button>
   </main>
 
-  <!-- Pop-up Kartu Pesan -->
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-content">
       <button class="close" id="closeBtn" type="button">&times;</button>
@@ -459,7 +490,10 @@
   const msgContainer = document.getElementById('msgContainer');
   const stage = document.getElementById('stage');
 
-  // Teks disesuaikan agar muat di font monospace
+  const bgMusic = document.getElementById('bgMusic');
+  const musicBtn = document.getElementById('musicBtn');
+  let isMusicPlaying = false;
+
   const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
 
   let typingTimer = null;
@@ -500,10 +534,9 @@
         cursor.before(document.createTextNode(char));
         charIndex++;
         
-        // KECEPATAN MESIN KETIK: Diberi sedikit keacakan (jitter) agar terasa mekanik
-        let pause = 70 + Math.random() * 40; // 70ms - 110ms
-        if (/[.,!?]/.test(char)) pause = 350 + Math.random() * 100; // Jeda lebih lama di tanda baca
-        else if (char === ' ') pause = 120 + Math.random() * 50; // Jeda spasi
+        let pause = 70 + Math.random() * 40; 
+        if (/[.,!?]/.test(char)) pause = 350 + Math.random() * 100; 
+        else if (char === ' ') pause = 120 + Math.random() * 50; 
         
         typingTimer = setTimeout(typeLine, pause);
       } else {
@@ -522,6 +555,14 @@
     stage.style.opacity = '0';
     stage.style.pointerEvents = 'none';
 
+    bgMusic.volume = 0.6;
+    bgMusic.play().then(() => {
+      isMusicPlaying = true;
+      musicBtn.classList.add('playing');
+    }).catch(err => {
+      console.log("Lagu gagal diputar otomatis oleh browser", err);
+    });
+
     setTimeout(typeMessage, 1000); 
   };
 
@@ -532,14 +573,29 @@
     stage.style.opacity = '1';
     stage.style.pointerEvents = 'auto';
 
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+    isMusicPlaying = false;
+    musicBtn.classList.remove('playing');
+
     clearTimeout(typingTimer);
     setTimeout(() => { msgContainer.innerHTML = ''; }, 500); 
   };
 
-  // Generate Bintang
+  musicBtn.addEventListener('click', () => {
+    if (isMusicPlaying) {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
+      isMusicPlaying = false;
+    } else {
+      bgMusic.play();
+      musicBtn.classList.add('playing');
+      isMusicPlaying = true;
+    }
+  });
+
   function createStars() {
     const container = document.getElementById('starContainer');
-    
     for(let i=0; i<80; i++) {
       const star = document.createElement('div');
       star.className = 'star';
@@ -552,7 +608,6 @@
       star.style.animationDelay = (Math.random() * 2) + 's';
       container.appendChild(star);
     }
-
     for(let i=0; i<15; i++) {
       const shootingStar = document.createElement('div');
       shootingStar.className = 'shooting-star';
