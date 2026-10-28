@@ -15,7 +15,6 @@
   :root {
     --text-main: #1a1a1a; 
     --accent: #d4a373; 
-    --bg-card: rgba(20, 20, 28, 0.95); 
   }
 
   html, body { height: 100%; }
@@ -39,39 +38,30 @@
     background-image: url('https://images.unsplash.com/photo-1597848212624-a19eb35e2651?q=80&w=2000&auto=format&fit=crop');
     background-size: cover; background-position: center;
     z-index: -4; transition: opacity 1.5s ease;
-  }
-  .bg-galaxy {
-    position: absolute; inset: 0;
-    background-image: url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=2000&auto=format&fit=crop');
-    background-size: cover; background-position: center;
-    z-index: -4; opacity: 0; transition: opacity 1.5s ease;
+    opacity: 1;
   }
   .overlay-sunflower {
     position: absolute; inset: 0;
     background: rgba(255, 255, 255, 0.4); 
     backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
-    z-index: -3; transition: opacity 1s ease;
+    z-index: -3; transition: opacity 1.5s ease;
+    opacity: 1;
+  }
+  
+  .bg-galaxy {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=2048&auto=format&fit=crop'); /* Gambar Galaksi Baru */
+    background-size: cover; background-position: center;
+    z-index: -4; transition: opacity 1.5s ease;
+    opacity: 0; /* Awalnya sembunyi */
   }
   .overlay-galaxy {
     position: absolute; inset: 0;
-    background: rgba(5, 5, 15, 0.6); 
+    background: rgba(5, 5, 15, 0.4); 
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    z-index: -3; opacity: 0; transition: opacity 1.5s ease;
+    z-index: -3; transition: opacity 1.5s ease;
+    opacity: 0; /* Awalnya sembunyi */
   }
-
-  /* KONDISI SAAT POP-UP TERBUKA (Menggunakan class body) */
-  body.modal-open .bg-galaxy { opacity: 1; }
-  body.modal-open .overlay-galaxy { opacity: 1; }
-  body.modal-open .bg-sunflower { opacity: 0; }
-  body.modal-open .overlay-sunflower { opacity: 0; }
-
-  /* Garis Abstrak di Background Utama */
-  .bg-lines {
-    position: absolute; inset: 0; z-index: -2; pointer-events: none; opacity: 0.6;
-  }
-  .bg-lines svg { width: 100%; height: 100%; }
-  .bg-lines path { fill: none; stroke-linecap: round; stroke: rgba(0, 0, 0, 0.1); transition: stroke 1.5s ease; }
-  body.modal-open .bg-lines path { stroke: rgba(212, 163, 115, 0.2); }
 
   /* =========================================
      HALAMAN UTAMA
@@ -88,11 +78,8 @@
   .title {
     font-family: 'Playfair Display', serif;
     font-size: clamp(3.5rem, 12vw, 5.5rem);
-    font-weight: 600;
-    font-style: italic;
-    line-height: 1.1; 
-    color: #1a1a1a;
-    margin-bottom: 15px;
+    font-weight: 600; font-style: italic; line-height: 1.1; 
+    color: #1a1a1a; margin-bottom: 15px;
     text-shadow: 0 4px 15px rgba(255,255,255,0.9);
   }
 
@@ -112,12 +99,11 @@
   .btn:hover { background: var(--accent); transform: translateY(-3px); }
 
   /* =========================================
-     POP-UP MODAL & KARTU
+     POP-UP MODAL 
      ========================================= */
   .overlay {
     position: fixed; inset: 0; z-index: 50;
     display: grid; place-items: center; padding: 20px;
-    background: rgba(15, 15, 15, 0.2); /* Overlay diperkecil karena background galaksi sudah gelap */
     opacity: 0; visibility: hidden;
     transition: opacity 0.5s ease, visibility 0.5s ease;
   }
@@ -130,32 +116,38 @@
     display: grid; place-items: center;
   }
 
-  /* KARTU UTAMA */
+  /* KARTU KACA (Tembus Pandang) */
   .card {
     position: relative;
     width: 100%;
     max-height: 85vh; overflow-y: auto;
     padding: 60px 40px; text-align: center;
-    background: var(--bg-card); 
+    
+    /* Kunci: Kartu dibuat transparan agar garis-garis terlihat menyatu */
+    background: rgba(15, 15, 25, 0.6); 
+    backdrop-filter: blur(15px); /* Efek kaca buram */
+    -webkit-backdrop-filter: blur(15px);
+    
     border-radius: 12px; 
-    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     transform: translateY(40px) scale(0.95); opacity: 0;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-    z-index: 10; /* Berada di atas benang */
+    z-index: 10;
   }
   .overlay.open .card { transform: translateY(0) scale(1); opacity: 1; }
 
   /* =========================================
-     GARIS BENANG WARNA-WARNI (DI BELAKANG KARTU)
+     GARIS BENANG WARNI (BINGKAI KARTU)
      ========================================= */
   .thread-svg {
     position: absolute;
-    top: -40px; left: -40px; right: -40px; bottom: -40px;
-    width: calc(100% + 80px); height: calc(100% + 80px);
+    top: -30px; left: -30px; right: -30px; bottom: -30px;
+    width: calc(100% + 60px); height: calc(100% + 60px);
     z-index: 1; pointer-events: none;
     opacity: 0;
     transition: opacity 1s ease 0.3s;
-    animation: spinThreads 25s linear infinite;
+    /* Animasi berputar pelan */
+    animation: spinThreads 20s linear infinite;
   }
   .overlay.open .thread-svg { opacity: 1; }
 
@@ -168,10 +160,10 @@
     fill: none;
     stroke-width: 2;
     stroke-linecap: round;
-    vector-effect: non-scaling-stroke;
+    /* Memberikan efek glow warna-warni pada benang */
+    filter: drop-shadow(0 0 4px currentColor); 
   }
 
-  /* Tombol Close */
   .close {
     position: absolute; top: 20px; right: 20px; z-index: 20;
     width: 36px; height: 36px; border: none; background: rgba(255,255,255,0.1);
@@ -221,29 +213,33 @@
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
     .card p.msg { font-size: 1.25rem; }
     .thread-svg {
-      top: -20px; left: -20px; right: -20px; bottom: -20px;
-      width: calc(100% + 40px); height: calc(100% + 40px);
+      top: -15px; left: -15px; right: -15px; bottom: -15px;
+      width: calc(100% + 30px); height: calc(100% + 30px);
     }
   }
 </style>
 </head>
 <body>
 
-  <div class="bg-sunflower"></div>
-  <div class="overlay-sunflower"></div>
-  <div class="bg-galaxy"></div>
-  <div class="overlay-galaxy"></div>
+  <!-- Background Layer -->
+  <div class="bg-sunflower" id="bgSunflower"></div>
+  <div class="overlay-sunflower" id="overlaySunflower"></div>
+  
+  <div class="bg-galaxy" id="bgGalaxy"></div>
+  <div class="overlay-galaxy" id="overlayGalaxy"></div>
 
+  <!-- Halaman Utama -->
   <main class="stage">
     <h1 class="title">Untuk Bila</h1>
     <p class="subtitle">A Little Note For You</p>
     <button class="btn" id="openBtn" type="button">Buka Pesan</button>
   </main>
 
+  <!-- Pop-up Card -->
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-wrapper">
       
-      <!-- SVG BENANG WARNA-WARNI -->
+      <!-- Garis Benang Warni -->
       <svg class="thread-svg" viewBox="0 0 200 200" preserveAspectRatio="none">
         <defs>
           <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -264,18 +260,13 @@
           </linearGradient>
         </defs>
 
-        <!-- Garis 1: Melengkung di kiri -->
-        <path d="M 10,50 C -10,80 30,120 10,150" stroke="url(#grad1)" />
-        <!-- Garis 2: Melengkung di kanan -->
-        <path d="M 190,60 C 210,100 170,140 190,170" stroke="url(#grad2)" />
-        <!-- Garis 3: Atas melingkar -->
-        <path d="M 30,10 C 60,-10 140,20 170,10" stroke="url(#grad3)" />
-        <!-- Garis 4: Bawah melingkar -->
-        <path d="M 20,190 C 60,210 150,180 180,190" stroke="url(#grad4)" />
-        <!-- Garis 5: Menyilang melintasi sudut -->
-        <path d="M 5,5 Q 50,50 10,100 T 5,195" stroke="url(#grad2)" />
-        <!-- Garis 6: Menyilang sudut kanan bawah -->
-        <path d="M 195,5 Q 150,50 190,100 T 195,195" stroke="url(#grad1)" />
+        <!-- Benang melingkar pinggir -->
+        <path d="M 5,20 C -20,60 30,140 5,180" stroke="url(#grad1)" color="#ff7eb3" />
+        <path d="M 195,20 C 220,80 170,120 195,180" stroke="url(#grad2)" color="#00e5ff" />
+        <path d="M 20,5 C 80,-20 120,20 180,5" stroke="url(#grad3)" color="#d4a373" />
+        <path d="M 20,195 C 80,220 120,180 180,195" stroke="url(#grad4)" color="#b388ff" />
+        <path d="M 10,10 Q 50,50 10,100 T 10,190" stroke="url(#grad2)" color="#00e5ff" />
+        <path d="M 190,10 Q 150,50 190,100 T 190,190" stroke="url(#grad1)" color="#ff7eb3" />
       </svg>
 
       <div class="card">
@@ -294,6 +285,12 @@
   const openBtn  = document.getElementById('openBtn');
   const closeBtn = document.getElementById('closeBtn');
   const msgContainer = document.getElementById('msgContainer');
+
+  // Elemen Background
+  const bgSunflower = document.getElementById('bgSunflower');
+  const overlaySunflower = document.getElementById('overlaySunflower');
+  const bgGalaxy = document.getElementById('bgGalaxy');
+  const overlayGalaxy = document.getElementById('overlayGalaxy');
 
   const MESSAGE = 'Bilaa, semangat yaa kerjanyaa 🌻🫶\n\nIni aku lagi nyoba bikin pesan buat kamu.\n\nKeprok atuh hahaha 👏\n\nSemoga hal-hal baik selalu menyertai hubungan kita.';
 
@@ -351,15 +348,25 @@
 
   const openCard = () => {
     overlay.classList.add('open');
-    // Menambahkan class ke body untuk memicu transisi background galaksi
-    document.body.classList.add('modal-open');
+    
+    // PAKSA GANTI BACKGROUND LEWAT JS (Anti-Gagal)
+    bgSunflower.style.opacity = '0';
+    overlaySunflower.style.opacity = '0';
+    bgGalaxy.style.opacity = '1';
+    overlayGalaxy.style.opacity = '1';
+
     setTimeout(typeMessage, 500); 
   };
 
   const closeCard = () => {
     overlay.classList.remove('open');
-    // Menghapus class body saat modal ditutup
-    document.body.classList.remove('modal-open');
+    
+    // KEMBALIKAN BACKGROUND KE BUNGA MATAHARI
+    bgSunflower.style.opacity = '1';
+    overlaySunflower.style.opacity = '1';
+    bgGalaxy.style.opacity = '0';
+    overlayGalaxy.style.opacity = '0';
+
     clearTimeout(typingTimer);
     setTimeout(() => { msgContainer.innerHTML = ''; }, 500); 
   };
