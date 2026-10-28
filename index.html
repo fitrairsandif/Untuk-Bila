@@ -29,7 +29,7 @@
   }
 
   /* =========================================
-     BACKGROUND LUAR (MATAHARI -> GALAKSI)
+     BACKGROUND HALAMAN (MATAHARI -> GALAKSI)
      ========================================= */
   .bg-sunflower {
     position: absolute; inset: 0;
@@ -107,7 +107,7 @@
   }
   .overlay.open { opacity: 1; visibility: visible; }
 
-  /* WADAH KARTU (Untuk menampung benang border) */
+  /* WADAH KARTU */
   .card-wrapper {
     position: relative;
     width: min(450px, 100%);
@@ -125,7 +125,7 @@
     padding: 60px 40px; text-align: center;
     
     /* ISI GALAKSI */
-    background: linear-gradient(rgba(10, 10, 20, 0.4), rgba(10, 10, 20, 0.8)), 
+    background: linear-gradient(rgba(10, 10, 20, 0.5), rgba(10, 10, 20, 0.8)), 
                 url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
     
     border-radius: 20px; 
@@ -133,18 +133,24 @@
     
     transform: translateY(30px) scale(0.95); opacity: 0;
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
-    z-index: 10;
+    z-index: 10; /* Di bawah benang */
   }
   .overlay.open .card-content { transform: translateY(0) scale(1); opacity: 1; }
 
+  /* Teks di dalam kartu (di atas benang) */
+  .inner-text {
+    position: relative;
+    z-index: 20;
+  }
+
   /* =========================================
-     BENANG SEBAGAI BORDER (PINGGIR KARTU)
+     BENANG LIAR SEBAGAI BINGKAI (BORDER)
      ========================================= */
   .thread-svg {
     position: absolute;
-    inset: -15px; /* Diletakkan sedikit di luar agar menutupi pinggiran */
-    width: calc(100% + 30px); height: calc(100% + 30px);
-    z-index: 20; pointer-events: none;
+    inset: -20px; /* Menjangkau keluar dari kotak */
+    width: calc(100% + 40px); height: calc(100% + 40px);
+    z-index: 15; pointer-events: none;
     opacity: 0;
     transition: opacity 1s ease 0.3s;
   }
@@ -155,9 +161,8 @@
     stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
-    /* Efek Glow Neon */
     filter: drop-shadow(0 0 6px currentColor); 
-    /* Wajib: agar stroke tidak gepeng saat layar memanjang */
+    /* Ini memastikan ketebalan benang tetap stabil di HP */
     vector-effect: non-scaling-stroke; 
   }
 
@@ -218,15 +223,15 @@
     .title { font-size: clamp(2.5rem, 14vw, 4rem); }
     .card-content p.msg { font-size: 1.2rem; }
     .thread-svg {
-      inset: -10px;
-      width: calc(100% + 20px); height: calc(100% + 20px);
+      inset: -15px;
+      width: calc(100% + 30px); height: calc(100% + 30px);
     }
   }
 </style>
 </head>
 <body>
 
-  <!-- Background -->
+  <!-- Background Halaman -->
   <div class="bg-sunflower" id="bgSunflower"></div>
   <div class="overlay-sunflower" id="overlaySunflower"></div>
   <div class="bg-galaxy" id="bgGalaxy"></div>
@@ -243,7 +248,7 @@
   <div class="overlay" id="overlay" role="dialog" aria-modal="true">
     <div class="card-wrapper">
       
-      <!-- SVG BENANG SEBAGAI BORDER -->
+      <!-- SVG BENANG LIAR -->
       <svg class="thread-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
         <defs>
           <linearGradient id="gPink" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff7eb3"/><stop offset="100%" stop-color="#ff758c"/></linearGradient>
@@ -251,30 +256,33 @@
           <linearGradient id="gGold" x1="100%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d4a373"/><stop offset="100%" stop-color="#faedcd"/></linearGradient>
         </defs>
 
-        <!-- Benang 1: Pink -->
+        <!-- Benang 1: Pink (Liar) -->
         <path stroke="url(#gPink)" color="#ff7eb3">
           <animate attributeName="d" dur="6s" repeatCount="indefinite" values="
-            M 5,5 C 30,-5 70,15 95,5 C 105,30 85,70 95,95 C 70,105 30,85 5,95 C -5,70 15,30 5,5;
-            M 5,15 C 40,-10 60,20 95,10 C 110,40 80,60 95,90 C 60,110 40,80 5,90 C -10,60 20,40 5,15;
-            M 5,5 C 30,-5 70,15 95,5 C 105,30 85,70 95,95 C 70,105 30,85 5,95 C -5,70 15,30 5,5
+            M 0,0 C 50,-40 100,-10 100,10 C 120,50 80,80 100,90 C 100,130 50,120 10,100 C -20,80 -20,20 0,0;
+            M 0,0 C 60,-20 80,-20 100,10 C 100,40 100,60 100,90 C 80,110 60,110 10,100 C -10,100 0,20 0,0;
+            M 0,0 C 30,-50 110,0 100,10 C 130,30 70,70 100,90 C 120,100 40,140 10,100 C -30,60 -10,40 0,0;
+            M 0,0 C 50,-40 100,-10 100,10 C 120,50 80,80 100,90 C 100,130 50,120 10,100 C -20,80 -20,20 0,0
           " />
         </path>
 
-        <!-- Benang 2: Cyan -->
+        <!-- Benang 2: Cyan (Liar) -->
         <path stroke="url(#gCyan)" color="#00e5ff">
           <animate attributeName="d" dur="8s" repeatCount="indefinite" values="
-            M 5,10 C 40,0 60,20 95,10 C 110,40 80,60 95,90 C 60,110 40,80 5,90 C -10,60 20,40 5,10;
-            M 5,5 C 30,-5 70,15 95,5 C 105,30 85,70 95,95 C 70,105 30,85 5,95 C -5,70 15,30 5,5;
-            M 5,10 C 40,0 60,20 95,10 C 110,40 80,60 95,90 C 60,110 40,80 5,90 C -10,60 20,40 5,10
+            M 100,0 C 60,-30 20,20 0,0 C -20,40 20,80 0,90 C 0,120 40,120 90,100 C 120,80 110,20 100,0;
+            M 100,0 C 80,-40 30,10 0,0 C -30,20 30,70 0,90 C -10,100 60,140 90,100 C 110,90 120,10 100,0;
+            M 100,0 C 40,-20 10,30 0,0 C -10,60 10,60 0,90 C 10,110 20,130 90,100 C 130,70 100,30 100,0;
+            M 100,0 C 60,-30 20,20 0,0 C -20,40 20,80 0,90 C 0,120 40,120 90,100 C 120,80 110,20 100,0
           " />
         </path>
 
-        <!-- Benang 3: Emas -->
+        <!-- Benang 3: Emas (Liar) -->
         <path stroke="url(#gGold)" color="#d4a373">
           <animate attributeName="d" dur="10s" repeatCount="indefinite" values="
-            M 5,15 C 50,5 50,25 95,15 C 100,50 90,50 95,85 C 50,95 50,75 5,85 C 0,50 10,50 5,15;
-            M 5,5 C 30,-5 70,15 95,5 C 105,30 85,70 95,95 C 70,105 30,85 5,95 C -5,70 15,30 5,5;
-            M 5,15 C 50,5 50,25 95,15 C 100,50 90,50 95,85 C 50,95 50,75 5,85 C 0,50 10,50 5,15
+            M 0,10 C 40,-20 60,40 100,10 C 110,60 90,40 100,90 C 60,120 40,80 0,90 C -10,50 20,40 0,10;
+            M 0,10 C 60,-30 50,60 100,10 C 130,40 70,60 100,90 C 40,130 60,60 0,90 C -30,70 10,20 0,10;
+            M 0,10 C 20,-30 80,20 100,10 C 90,70 100,20 100,90 C 80,100 20,100 0,90 C 10,60 -20,50 0,10;
+            M 0,10 C 40,-20 60,40 100,10 C 110,60 90,40 100,90 C 60,120 40,80 0,90 C -10,50 20,40 0,10
           " />
         </path>
       </svg>
@@ -283,9 +291,12 @@
       <div class="card-content">
         <button class="close" id="closeBtn" type="button">&times;</button>
         
-        <h2>Hai, Bila</h2>
-        <p class="msg" id="msgContainer"></p>
-        <p class="signature">— Dari aku, Fitra</p>
+        <!-- Pembungkus Teks -->
+        <div class="inner-text">
+          <h2>Hai, Bila</h2>
+          <p class="msg" id="msgContainer"></p>
+          <p class="signature">— Dari aku, Fitra</p>
+        </div>
       </div>
       
     </div>
